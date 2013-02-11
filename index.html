@@ -237,6 +237,10 @@
             .value(function(d) {
               return +d.properties[field];
             });
+    proj.origin([34.957995,38.496094]);
+    proj.translate([175,-75]);
+    proj.parallels([32,42]);
+    proj.scale(5120);
 
       window.onhashchange = function() {
         parseHash();
