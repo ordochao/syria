@@ -17,11 +17,12 @@ path {
 }
 
 </style>
-<body>
+<body >
 	<script src="http://d3js.org/d3.v2.min.js"></script>
 	<script src="lib/colorbrewer.js"></script>
     <script src="lib/topojson.js"></script>
     <script src="cartogram.js"></script>
+    <button type = "button" onclick="nextStep()">Next</button>
 <script>
 
 var width = 800,
@@ -36,41 +37,56 @@ proj.origin([34.957995,38.496094]);
 var path = d3.geo.path().projection(proj);
 
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
 
 
-var g = svg.append("g").selectAll("path");
 
-/*var carto = d3.cartogram()
-			.projection(proj)
-			.value(function(d) {
-			
-			return Math.random()*1000;
-			});*/
 
 var carto = d3.cartogram()
 			.projection(proj)
 			.properties(function(d) {
-				console.log(d.properties.monthlyValues);
-              return d.properties.monthlyValues[0];
-            })
-            /*.value(function(d) {
-            	console.log(+d.properties[0]+1000);
-              return +d.properties[0]+1000;
-            });*/
+				console.log(d.properties);
+              	return d.properties;
+            }).value(function(d) {
+            	console.log(d.properties.monthlyValues[currentValue]);
+            	return d.properties.monthlyValues[currentValue]*100+1;
+            });
 
-	
-d3.json("data/syriaGovernTopo2.json", function(topology) {
-	//console.log(topology);
-	var geom = topology.objects.syriaGovern.geometries;
-	var features = carto(topology,geom).features;  
-	g = g.data(features)
-	.enter().append("path")
-	.attr("d",carto.path)
-	.attr("class", "state-boundary");
+var currentValue = 0;
+console.log("executed")
 
-});
 
+init = function () {
+	console.log("init called")
+	refreshJson();
+}
+
+nextStep = function () {
+	currentValue = (currentValue + 1)%7;
+	console.log("currentValue is " + currentValue);
+	refreshJson();
+}
+
+refreshJson = function () {
+		console.log("refreshed json");
+
+		d3.select("svg").remove();
+
+		var svg = d3.select("body").append("svg")
+	    .attr("width", width)
+	    .attr("height", height);
+
+
+		var g = svg.append("g").selectAll("path");
+
+		
+		d3.json("data/syriaGovernTopo2.json", function(topology) {
+		var geom = topology.objects.syriaGovern.geometries;
+		var features = carto(topology,geom).features;  
+		g = g.data(features)
+		.enter().append("path")
+		.attr("d",carto.path)
+		.attr("class", "state-boundary");
+	});
+}
+init();
 </script>
