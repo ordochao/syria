@@ -21,15 +21,20 @@ path {
 	<script src="http://d3js.org/d3.v2.min.js"></script>
 	<script src="lib/colorbrewer.js"></script>
     <script src="lib/topojson.js"></script>
-    <script src="cartogram.js"></script>
+    <script src="lib/cartogram.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="../scripts/dataManager.js"></script>
+
+
     <button type = "button" onclick="nextStep()">Next</button>
+
+
 <script>
 
 var width = 800,
     height = 550;
 
-var proj = d3.geo.albers();
-proj.origin([34.957995,38.496094]);
+var proj = d3.geo.albers().origin([34.957995,38.496094]);
     proj.translate([175,-75]);
     proj.parallels([32,42]);
     proj.scale(5120);
@@ -39,20 +44,13 @@ var path = d3.geo.path().projection(proj);
 var carto = d3.cartogram()
 			.projection(proj)
 			.properties(function(d) {
-				return dataById[d.id];
-              	//return d.properties;
+				return window.dataManager.dataById[d.id];
             }).value(function(d) {
             	if (d.properties == undefined) {
-            		/*console.log("Error");
-            		console.log(d)*/
             		return 1;
             	}
             	var output = (!isNaN(d.properties.monthlyValues[currentValue])) ? +d.properties.monthlyValues[currentValue]+20+Math.random():1;
-				/*console.log("Output");
-            	console.log(d)
-            	console.log(output)*/
-            	return output;
-            	//return d.properties.monthlyValues[currentValue]*100+1;
+            	return output;       
             });
 
 var currentValue = 0;
@@ -62,7 +60,6 @@ var svg = d3.select("body").append("svg")
 			.attr("height", height);
 
 
-//console.log("Starting application")
 
 colors = colorbrewer.RdYlBu[3]
             .reverse()
@@ -70,66 +67,35 @@ colors = colorbrewer.RdYlBu[3]
             	return d3.hsl(rgb); });
 
 init = function () {
-	//console.log("call init()");
 	loadData();
 }
 
+loadData = function () {
+	$('body').on(window.dataManager.LOADED_DATA_EVENT, dataLoadedHandler);
+    dataManager.loadData();
+}
 
+dataLoadedHandler = function(event) {
+	features = carto(window.dataManager.topology,window.dataManager.governorates).features;
+	states = svg.selectAll("path").data(features)
+	.enter().append("path")
+	.attr("d",carto.path)
+	.attr("class", "state-boundary");
+}
 
 nextStep = function () {
 	currentValue = (currentValue + 1)%7;
-	//console.log("currentValue is " + currentValue);
 	refreshJson();
-}
-
-loadData = function () {
-	//console.log("call loadData()");
-	d3.json("data/governMonthly.json", loadedCasualtiesData );
-}
-
-loadedCasualtiesData = function(loadedCasualites) {
-	casualties = loadedCasualites;
-	//console.log("Casualties");
-	//console.log(casualties);
-	dataById = d3.nest()
-            .key(function(d) { 
-            	/*console.log("Nest");
-            	console.log(d);*/
-            	return d.id; })
-            .rollup(function(d) { 
-            	//console.log("Nest");
-            	//console.log(d[0].monthlyValues);
-            	return d[0]; })
-            .map(loadedCasualites);
-	startLoadingMapData();
-}
-
-startLoadingMapData = function () {
-	d3.json("data/syriaGovernTopo2.json", loadedMapData );	
-}
-
-loadedMapData = function(topology) {
-		//console.log("loadedMapData");
-		topo = topology;	
-		geom = topology.objects.syriaGovern.geometries;
-		svg.append("g").selectAll("path");
-		features = carto(topo,geom).features;
-		//console.log("features:");
-		//console.log(features);
-		states = svg.selectAll("path").data(features)
-		.enter().append("path")
-		.attr("d",carto.path)
-		.attr("class", "state-boundary");
-		console.log("refreshed json");
 }
 
 refreshJson = function () {
 		console.log("refreshed json");
-		features = carto(topo,geom).features;
+		features = carto(window.dataManager.topology,window.dataManager.governorates).features;
 		states.data(features).transition()
           .duration(750)
           .ease("linear")
           .attr("d", carto.path);
 }
+
 init();
 </script>
