@@ -1,91 +1,34 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
-
-path {
-  stroke: #000;
-  stroke-width: .2px;
-}
-
-.map {
-  background-color: #F0F0F0;
-  border: #000;
-  stroke-width: .5px;
-  vertical-align: bottom;
-  margin-left:  100px
-}
-
-h1 {
-	margin-left:  100px
-}
-
-p {
-	vertical-align: center;
-}
-
-button {
-	width: 100px;
-	vertical-align: center;
-}
-
-.stepper {
-	width: 100%;
-	text-align: center;
-	padding-left: 100px;
-}
-.controls {
-	text-align: center;
-	width: 250px;
-	padding-bottom: 20px;	
-}
-
-	ul#display-inline-block-example,
-	ul#display-inline-block-example li {
-		/* Setting a common base */
-		margin: 0;
-		padding: 0;
-		text-align: center;
-	}
-	
-	ul#display-inline-block-example {
-		width: 250px;
-		height: 22px;
-	}
-
-	ul#display-inline-block-example li {
-		display: inline-block;
-		width: 110px;
-		height: 40px;
-		vertical-align: top;
-		
-		/* For IE 7 */
-		zoom: 1;
-		*display: inline;
-	}
-}
-
-
-</style>
+<link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="styles/main.css" rel="stylesheet" media="screen">
 <body >
 	<script src="http://d3js.org/d3.v2.min.js"></script>
 	<script src="lib/colorbrewer.js"></script>
     <script src="lib/topojson.js"></script>
     <script src="lib/cartogram.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="scripts/dataManager.js"></script>
     <script src="scripts/syriaCartogram.js"></script>
     <script src="scripts/colorManager.js"></script>
-    <h1 class="">The Syrian Conflict</h1>
-    <div class="controls">
-    	<div class="stepper">
-	    	<p>Month 0</p>
-		    <ul id="display-inline-block-example">
-				<li><button type = "button" onclick="previousStep()">Previous</button></li>
-				<li><button type = "button" onclick="nextStep()">Next</button></li>
-			</ul>
+    <!-- Application Structure-->
+    <h1 class="title">THE SYRIAN CIVIL WAR</h1>
+    <nav class="navigator">
+    	<div class="column-fluid" >
+			<p id="monthDisplayer" class="monthDisplayer">Month 0</p>	    	
 		</div>
-    </div>	
-    	
+			    
+	    <div id="controls" class="btn-group column-fluid">    	
+		    <div class="column-fluid">
+
+				<button type = "button" class="frameToFrameButton" onclick="previousStep()"><</button>
+				<button type = "button" class="frameToFrameButton" onclick="nextStep()">></button>
+			</div>
+	    </div>
+	    
+	    <div id="mapCanvas" />	
+    </nav>	
     	
 	</div>
 
@@ -97,7 +40,7 @@ var width = 525,
 
 var currentStep = 0;
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#mapCanvas").append("svg")
 			.attr("width", width)
 			.attr("height", height)
 			.attr("class", "map");
@@ -133,7 +76,7 @@ dataLoadedHandler = function(event) {
 nextStep = function () {	
 	currentStep = (currentStep + 1)%23;
 	console.log("Step="+currentStep);
-	p = d3.select("body").select("p").text("Month "+currentStep);
+	p = d3.select("body").selectAll("p").text("Month "+currentStep);
 	refreshJson();
 }
 
@@ -141,7 +84,7 @@ previousStep = function () {
 	currentStep = (currentStep - 1);
 	if (currentStep < 0) currentStep = 22;
 	console.log("Step="+currentStep);
-	p = d3.select("body").selectAll("p").text("Month"+currentStep);
+	p = d3.select("body").selectAll("p").text("Month "+currentStep);
 	refreshJson();
 }
 

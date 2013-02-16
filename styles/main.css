@@ -1,1 +1,38 @@
-/* Will be compiled down to a single stylesheet with your sass files */
+path {
+  stroke: #000;
+  stroke-width: .2px;
+}
+
+.map {
+  background-color: #F0F0F0;
+  border: #000;
+  text-align: center;
+  stroke-width: .5px;
+  vertical-align: bottom;
+}
+
+.title {
+	text-align: center;
+	font-size:  20pt;
+	margin-top: 0px;
+	padding-top: 5px;
+	margin-bottom: 2px;
+	padding-bottom: 2px;
+	background-color: #444;
+	color: #EEE;
+}
+
+.navigator {
+	text-align: center;
+	padding-top: 5px;
+}
+
+#mapCanvas {
+	text-align: right;
+	padding-top: 10px;
+}
+
+.frameToFrameButton {
+	width: 30px;
+	font-weight: bold;
+}
