@@ -14,23 +14,15 @@
     <script src="scripts/colorManager.js"></script>
     <!-- Application Structure-->
     <h1 class="title">THE SYRIAN CIVIL WAR</h1>
-    <div class="row">		
-	    <div class="column" style="width:500px">
-		    <div id="mapCanvas" >
-		    </div>
-		    <nav class="mapNavigator">
-		    	<div class="inline controls" >	 
-					<button type = "button" class="frameToFrameButton" onclick="previousStep()"><</button>
-					<span id="monthDisplayer">Month 0</span>		
-					<button type = "button" class="frameToFrameButton" onclick="nextStep()">></button>
-
-				</div>  
-		    </nav>	    	
-		</div>
-		<image src="images/syriaMap.png" id="syriaImage"/>
+	<div id="mapCanvas" >
 	</div>
-	
-
+	<nav class="mapNavigator">
+	    	<div class="inline controls" >	 
+				<button type = "button" class="frameToFrameButton" onclick="previousStep()"><</button>
+				<span id="monthDisplayer">Month 0</span>		
+				<button type = "button" class="frameToFrameButton" onclick="nextStep()">></button>
+			</div>  
+	 </nav>	    	
 <script>
 
 var width = 525,
