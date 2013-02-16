@@ -3,18 +3,67 @@
 <style>
 
 path {
-  fill: none;
   stroke: #000;
+  stroke-width: .2px;
+}
+
+.map {
+  background-color: #F0F0F0;
+  border: #000;
   stroke-width: .5px;
+  vertical-align: bottom;
+  margin-left:  100px
 }
 
-.land-boundary {
-  stroke-width: 1px;
+h1 {
+	margin-left:  100px
 }
 
-.county-boundary {
-  stroke: #aaa;
+p {
+	vertical-align: center;
 }
+
+button {
+	width: 100px;
+	vertical-align: center;
+}
+
+.stepper {
+	width: 100%;
+	text-align: center;
+	padding-left: 100px;
+}
+.controls {
+	text-align: center;
+	width: 250px;
+	padding-bottom: 20px;	
+}
+
+	ul#display-inline-block-example,
+	ul#display-inline-block-example li {
+		/* Setting a common base */
+		margin: 0;
+		padding: 0;
+		text-align: center;
+	}
+	
+	ul#display-inline-block-example {
+		width: 250px;
+		height: 22px;
+	}
+
+	ul#display-inline-block-example li {
+		display: inline-block;
+		width: 110px;
+		height: 40px;
+		vertical-align: top;
+		
+		/* For IE 7 */
+		zoom: 1;
+		*display: inline;
+	}
+}
+
 
 </style>
 <body >
@@ -23,50 +72,39 @@ path {
     <script src="lib/topojson.js"></script>
     <script src="lib/cartogram.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="../scripts/dataManager.js"></script>
-
-
-    <button type = "button" onclick="nextStep()">Next</button>
+    <script src="scripts/dataManager.js"></script>
+    <script src="scripts/syriaCartogram.js"></script>
+    <script src="scripts/colorManager.js"></script>
+    <h1 class="">The Syrian Conflict</h1>
+    <div class="controls">
+    	<div class="stepper">
+	    	<p>Month 0</p>
+		    <ul id="display-inline-block-example">
+				<li><button type = "button" onclick="previousStep()">Previous</button></li>
+				<li><button type = "button" onclick="nextStep()">Next</button></li>
+			</ul>
+		</div>
+    </div>	
+    	
+    	
+	</div>
 
 
 <script>
 
-var width = 800,
-    height = 550;
+var width = 525,
+    height = 525;
 
-var proj = d3.geo.albers().origin([34.957995,38.496094]);
-    proj.translate([175,-75]);
-    proj.parallels([32,42]);
-    proj.scale(5120);
-
-var path = d3.geo.path().projection(proj);
-
-var carto = d3.cartogram()
-			.projection(proj)
-			.properties(function(d) {
-				return window.dataManager.dataById[d.id];
-            }).value(function(d) {
-            	if (d.properties == undefined) {
-            		return 1;
-            	}
-            	var output = (!isNaN(d.properties.monthlyValues[currentValue])) ? +d.properties.monthlyValues[currentValue]+20+Math.random():1;
-            	return output;       
-            });
-
-var currentValue = 0;
+var currentStep = 0;
 
 var svg = d3.select("body").append("svg")
 			.attr("width", width)
-			.attr("height", height);
+			.attr("height", height)
+			.attr("class", "map");
 
-
-
-colors = colorbrewer.RdYlBu[3]
-            .reverse()
-            .map(function(rgb) { 
-            	return d3.hsl(rgb); });
 
 init = function () {
+	window.cartogram.init();
 	loadData();
 }
 
@@ -76,25 +114,54 @@ loadData = function () {
 }
 
 dataLoadedHandler = function(event) {
-	features = carto(window.dataManager.topology,window.dataManager.governorates).features;
+	window.colorManager.init(window.dataManager.maxCasualties);
+	features = window.cartogram.getFeatures(currentStep);	
 	states = svg.selectAll("path").data(features)
 	.enter().append("path")
-	.attr("d",carto.path)
-	.attr("class", "state-boundary");
+	.attr("d",window.cartogram.carto.path)
+          .attr("fill", function(d) {
+          	if (d.properties == undefined) {
+            	return 0;
+            }
+            var currentValue=d.properties.monthlyValues[currentStep];
+            currentColor=window.colorManager.getColor(currentValue);            
+            console.log("value = "+currentValue+ " color = "+currentColor);
+            return output;            
+          })
 }
 
-nextStep = function () {
-	currentValue = (currentValue + 1)%7;
+nextStep = function () {	
+	currentStep = (currentStep + 1)%23;
+	console.log("Step="+currentStep);
+	p = d3.select("body").select("p").text("Month "+currentStep);
+	refreshJson();
+}
+
+previousStep = function () {	
+	currentStep = (currentStep - 1);
+	if (currentStep < 0) currentStep = 22;
+	console.log("Step="+currentStep);
+	p = d3.select("body").selectAll("p").text("Month"+currentStep);
 	refreshJson();
 }
 
 refreshJson = function () {
-		console.log("refreshed json");
-		features = carto(window.dataManager.topology,window.dataManager.governorates).features;
+		
+		//features = carto(window.dataManager.topology,window.dataManager.governorates).features;
+		features = window.cartogram.getFeatures(currentStep);
 		states.data(features).transition()
           .duration(750)
           .ease("linear")
-          .attr("d", carto.path);
+          .attr("fill", function(d) {
+          	if (d.properties == undefined) {
+            	return 0;
+            }
+            var currentValue=d.properties.monthlyValues[currentStep];
+            currentColor=window.colorManager.getColor(currentValue);            
+            console.log("value = "+currentValue+ " color = "+currentColor);
+            return output;            
+          })
+          .attr("d", window.cartogram.carto.path)
 }
 
 init();
