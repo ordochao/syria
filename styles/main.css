@@ -42,6 +42,12 @@ path {
 	margin-left: 100px;
 }
 
+#syriaImage {
+	width:500px;
+	text-align: right;
+	display: block;
+}
+
 #monthDisplayer {
 	margin-top:		10px;
 	margin-left: 	10px;
