@@ -14,20 +14,15 @@
     <script src="scripts/colorManager.js"></script>
     <!-- Application Structure-->
     <h1 class="title">THE SYRIAN CIVIL WAR</h1>
-    <nav class="navigator">
-    	<div class="column-fluid" >
-			<p id="monthDisplayer" class="monthDisplayer">Month 0</p>	    	
-		</div>
-			    
-	    <div id="controls" class="btn-group column-fluid">    	
-		    <div class="column-fluid">
+    <div id="mapCanvas" >
+    </div>
+    <nav class="mapNavigator">
+    	<div class="inline controls" >	 
+			<button type = "button" class="frameToFrameButton" onclick="previousStep()"><</button>
+			<span id="monthDisplayer">Month 0</span>		
+			<button type = "button" class="frameToFrameButton" onclick="nextStep()">></button>
 
-				<button type = "button" class="frameToFrameButton" onclick="previousStep()"><</button>
-				<button type = "button" class="frameToFrameButton" onclick="nextStep()">></button>
-			</div>
-	    </div>
-	    
-	    <div id="mapCanvas" />	
+		</div>  
     </nav>	
     	
 	</div>

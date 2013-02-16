@@ -12,27 +12,39 @@ path {
 }
 
 .title {
-	text-align: center;
 	font-size:  20pt;
 	margin-top: 0px;
 	padding-top: 5px;
+	padding-left: 50px;
 	margin-bottom: 2px;
 	padding-bottom: 2px;
 	background-color: #444;
 	color: #EEE;
 }
 
-.navigator {
-	text-align: center;
+.mapNavigator {
 	padding-top: 5px;
+	padding-left: 50px;
 }
 
 #mapCanvas {
-	text-align: right;
-	padding-top: 10px;
+	padding-top: 	10px;
+	padding-bottom: 10px;
 }
 
 .frameToFrameButton {
 	width: 30px;
+	padding-top: 0px;
 	font-weight: bold;
+}
+
+.controls {
+	margin-left: 100px;
+}
+
+#monthDisplayer {
+	margin-top:		10px;
+	margin-left: 	10px;
+	margin-right: 	10px;
+	font-size: 		15pt;
 }
