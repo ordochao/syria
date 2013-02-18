@@ -41,6 +41,13 @@ init = function () {
 	loadData();
 }
 
+tooltip = d3.select("body")
+	.append("div")
+	.style("position", "absolute")
+	.style("z-index", "10")
+	.style("visibility", "hidden")
+	.text("a simple tooltip");
+
 loadData = function () {
 	$('body').on(window.dataManager.LOADED_DATA_EVENT, dataLoadedHandler);
     dataManager.loadData();
@@ -66,7 +73,7 @@ dataLoadedHandler = function(event) {
 nextStep = function () {	
 	currentStep = (currentStep + 1)%23;
 	console.log("Step="+currentStep);
-	d3.select("#monthDisplayer").text("Month "+currentStep);
+	refreshMonths();
 	refreshJson();
 }
 
@@ -74,8 +81,12 @@ previousStep = function () {
 	currentStep = (currentStep - 1);
 	if (currentStep < 0) currentStep = 22;
 	console.log("Step="+currentStep);
-	p = d3.select("body").selectAll("p").text("Month "+currentStep);
+	refreshMonths();
 	refreshJson();
+}
+
+refreshMonths = function () {
+	d3.select("#monthDisplayer").text("Month "+currentStep);
 }
 
 refreshJson = function () {
@@ -94,7 +105,13 @@ refreshJson = function () {
             console.log("value = "+currentValue+ " color = "+currentColor);
             return output;            
           })
-          .attr("d", window.cartogram.carto.path)
+          .attr("d", window.cartogram.carto.path)         
+
+          /*.on("mouseover", function(){
+          	console.log("Mouse over")
+          	return tooltip.style("visibility", "visible");})
+		  .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+	 	  .on("mouseout", function(){return tooltip.style("visibility", "hidden");});*/
 }
 
 init();
