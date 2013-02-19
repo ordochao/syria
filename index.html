@@ -14,46 +14,59 @@
     <script src="scripts/colorManager.js"></script>
     <!-- Application Structure-->
     <h1 class="title">THE SYRIAN CIVIL WAR</h1>
-	<div id="mapCanvas" >
-	</div>
-	<nav class="mapNavigator">
+	
+	 <div class="row">
+		<div id="mapCanvas" class="row">
+	</div>	    		
+	<div class="mapNavigator">
 	    	<div class="inline controls" >	 
 				<button type = "button" class="frameToFrameButton" onclick="previousStep()"><</button>
 				<span id="monthDisplayer">Month 0</span>		
 				<button type = "button" class="frameToFrameButton" onclick="nextStep()">></button>
 			</div>  
-	 </nav>	    	
+	 </div>
+		<div id="smallMultiplesCanvas" class="row" >	
+		</div>
+	</div>
+	
+    
 <script>
 
-var width = 525,
-    height = 525;
+var width = 150,
+    height = 150;
+
+var widthSM 	= 150,
+    heightSM 	= 150;
 
 var currentStep = 0;
 
-var svg = d3.select("#mapCanvas").append("svg")
+var frames = [];
+
+var animSVG = d3.select("#mapCanvas").append("svg")
 			.attr("width", width)
 			.attr("height", height)
 			.attr("class", "map");
 
+var governities;
 
 init = function () {
 	window.cartogram.init();
 	loadData();
 }
 
-tooltip = d3.select("body")
+/*tooltip = d3.select("body")
 	.append("div")
 	.style("position", "absolute")
 	.style("z-index", "10")
 	.style("visibility", "hidden")
-	.text("a simple tooltip");
+	.text("a simple tooltip");*/
 
 loadData = function () {
 	$('body').on(window.dataManager.LOADED_DATA_EVENT, dataLoadedHandler);
     dataManager.loadData();
 }
 
-dataLoadedHandler = function(event) {
+/*dataLoadedHandler = function(event) {
 	window.colorManager.init(window.dataManager.maxCasualties);
 	features = window.cartogram.getFeatures(currentStep);	
 	states = svg.selectAll("path").data(features)
@@ -68,50 +81,108 @@ dataLoadedHandler = function(event) {
             console.log("value = "+currentValue+ " color = "+currentColor);
             return output;            
           })
+}*/
+
+dataLoadedHandler = function(event) {
+	window.colorManager.init(window.dataManager.maxCasualties);
+	for (var i=0;i<23;i++) {
+		frames[i] = createSmallMultiple(i);
+		
+	}
+	createAnimation(0);
 }
 
 nextStep = function () {	
 	currentStep = (currentStep + 1)%23;
-	console.log("Step="+currentStep);
 	refreshMonths();
-	refreshJson();
+	refreshAnimation();
 }
 
 previousStep = function () {	
 	currentStep = (currentStep - 1);
-	if (currentStep < 0) currentStep = 22;
-	console.log("Step="+currentStep);
+	if (currentStep < 0) currentStep = 22;	
 	refreshMonths();
-	refreshJson();
+	refreshAnimation();
 }
 
 refreshMonths = function () {
+	console.log("Step="+currentStep);
 	d3.select("#monthDisplayer").text("Month "+currentStep);
 }
 
-refreshJson = function () {
-		
-		//features = carto(window.dataManager.topology,window.dataManager.governorates).features;
-		features = window.cartogram.getFeatures(currentStep);
-		states.data(features).transition()
-          .duration(750)
-          .ease("linear")
-          .attr("fill", function(d) {
+refreshAnimation = function () {
+			console.log("refreshAnimation");
+			
+          	var cartoInfo 	= window.cartogram.getCartoInfo(currentStep);
+          	console.log(cartoInfo);
+          	var features 	= cartoInfo.features;
+          	var currentPath = cartoInfo.path;
+
+			governities.data(features).transition().attr("d", currentPath)  
+          	.duration(750)
+          	.ease("linear")
+          	.attr("fill", function(d) {
           	if (d.properties == undefined) {
             	return 0;
             }
             var currentValue=d.properties.monthlyValues[currentStep];
-            currentColor=window.colorManager.getColor(currentValue);            
+            currentColor=window.colorManager.getColor(currentValue);                        
             console.log("value = "+currentValue+ " color = "+currentColor);
+            console.log(d);
             return output;            
           })
-          .attr("d", window.cartogram.carto.path)         
+          
+}
 
-          /*.on("mouseover", function(){
-          	console.log("Mouse over")
-          	return tooltip.style("visibility", "visible");})
-		  .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
-	 	  .on("mouseout", function(){return tooltip.style("visibility", "hidden");});*/
+
+createAnimation = function (initStep) {
+			console.log("createAnimation");
+
+          	var cartoInfo 	= window.cartogram.getCartoInfo(currentStep);
+          	var features 	= cartoInfo.features;
+          	var currentPath = cartoInfo.path;
+
+			governities = animSVG.selectAll("path").data(features)
+			.enter().append("path").attr("d",currentPath)
+			.attr("scale",2000)
+			.attr("width", width)
+			.attr("height", height)
+			.attr("class", "map")
+			.attr("preserveAspectRatio", "none")
+			.attr("fill", function(d) {
+         	 	if (d.properties == undefined) {
+         		   	return 0;
+         	   }
+        	    var currentValue=d.properties.monthlyValues[initStep];
+        	    currentColor=window.colorManager.getColor(currentValue);            
+        	   	 return output;            
+          	})       	
+}
+
+createSmallMultiple = function (currentFrameIndex) {
+			console.log("createSmallMultipe");
+
+          	var cartoInfo 	= window.cartogram.getCartoInfo(currentFrameIndex);
+          	var features 	= cartoInfo.features;
+          	var currentPath = cartoInfo.path;
+			
+			var newSVG = d3.select("#smallMultiplesCanvas").append("svg")
+			.attr("width", widthSM)
+			.attr("height", heightSM)
+			.attr("preserveAspectRatio", "none")
+			.attr("class", "map")
+			newSVG.selectAll("path").data(features)
+			.enter().append("path")
+			.attr("d",currentPath)
+          	.attr("fill", function(d) {
+         	 	if (d.properties == undefined) {
+         		   	return 0;
+         	   }
+        	    var currentValue=d.properties.monthlyValues[currentFrameIndex];
+        	    currentColor=window.colorManager.getColor(currentValue);            
+        	   	 return output;            
+          	})   
+          	return newSVG;        	
 }
 
 init();

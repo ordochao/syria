@@ -24,13 +24,15 @@ path {
 
 .mapNavigator {
 	padding-top: 5px;
-	padding-left: 100px;
+	padding-left: 25px;
 }
 
 #mapCanvas {
+	border-width: 	1px;
 	padding-left: 	50px;
 	padding-top: 	10px;
 	padding-bottom: 10px;
+	width: 525px;
 }
 
 .frameToFrameButton {
@@ -40,7 +42,7 @@ path {
 }
 
 .controls {
-	margin-left: 135px;
+	margin-left: 10px;
 }
 
 #syriaImage {	
@@ -54,4 +56,13 @@ path {
 	margin-left: 	10px;
 	margin-right: 	10px;
 	font-size: 		10pt;
+}
+
+#smallMultiplesCanvas {
+	border-width: 	1px;
+	padding-left: 	50px;
+	padding-top: 	10px;
+	padding-bottom: 10px;
+	width: 525px;
+	text-align: right;
 }
