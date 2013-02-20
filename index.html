@@ -14,26 +14,34 @@
     <script src="scripts/colorManager.js"></script>
     <!-- Application Structure-->
     <h1 class="title">THE SYRIAN CIVIL WAR</h1>
-	
+	<div>
+		<p class="label">This is the animation</p>
+	</div>	
 	 <div class="row">
 		<div id="mapCanvas" class="row">
 	</div>	    		
 	<div class="mapNavigator">
-	    	<div class="inline controls" >	 
+	    	<div class="inline controls" >
 				<button type = "button" class="frameToFrameButton" onclick="previousStep()"><</button>
 				<span id="monthDisplayer">Month 0</span>		
 				<button type = "button" class="frameToFrameButton" onclick="nextStep()">></button>
 			</div>  
 	 </div>
+	 <div>
+		<p class="label">These are the small multiples</p>
+	</div>	
 		<div id="smallMultiplesCanvas" class="row" >	
 		</div>
 	</div>
+	<div>
+		<p class="label">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in velit sit amet metus blandit euismod. In elementum cursus porta. Sed a erat augue. Quisque ut odio ut erat eleifend adipiscing. Etiam sed ornare magna. Cras volutpat lobortis neque, eu condimentum nibh porta mollis. Nunc nec ante in lectus malesuada malesuada. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+	</div>	
 	
     
 <script>
 
-var width = 150,
-    height = 150;
+var width = 525,
+    height = 500;
 
 var widthSM 	= 150,
     heightSM 	= 150;
@@ -85,7 +93,7 @@ loadData = function () {
 
 dataLoadedHandler = function(event) {
 	window.colorManager.init(window.dataManager.maxCasualties);
-	for (var i=0;i<23;i++) {
+	for (var i=0;i<12;i++) {
 		frames[i] = createSmallMultiple(i);
 		
 	}
@@ -142,13 +150,14 @@ createAnimation = function (initStep) {
           	var features 	= cartoInfo.features;
           	var currentPath = cartoInfo.path;
 
-			governities = animSVG.selectAll("path").data(features)
-			.enter().append("path").attr("d",currentPath)
-			.attr("scale",2000)
+			governities = animSVG.selectAll("path")
 			.attr("width", width)
 			.attr("height", height)
+			.data(features)
+			.enter().append("path").attr("d",currentPath)			
 			.attr("class", "map")
-			.attr("preserveAspectRatio", "none")
+			.attr("preserveAspectRatio", "none")			
+			.attr("transform", "scale(4),translate(0,-10)")
 			.attr("fill", function(d) {
          	 	if (d.properties == undefined) {
          		   	return 0;

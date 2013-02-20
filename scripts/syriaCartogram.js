@@ -11,7 +11,7 @@ window.cartogram = {
 	},
 
 	definePath: function() {
-		window.cartogram.path 		= d3.geo.path().projection(window.cartogram.projection);
+		window.cartogram.path 			= d3.geo.path().projection(window.cartogram.projection);
 	},
 
 	defineCartoFunction: function() {
