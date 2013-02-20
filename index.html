@@ -14,6 +14,7 @@
     <script src="scripts/colorManager.js"></script>
     <!-- Application Structure-->
     <h1 class="title">THE SYRIAN CIVIL WAR</h1>
+
 	<div>
 		<p class="label">This is the animation</p>
 	</div>	
@@ -33,6 +34,7 @@
 		<div id="smallMultiplesCanvas" class="row" >	
 		</div>
 	</div>
+	<div id="tooltip" class="customToolTip"/>
 	<div>
 		<p class="label">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in velit sit amet metus blandit euismod. In elementum cursus porta. Sed a erat augue. Quisque ut odio ut erat eleifend adipiscing. Etiam sed ornare magna. Cras volutpat lobortis neque, eu condimentum nibh porta mollis. Nunc nec ante in lectus malesuada malesuada. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
 	</div>	
@@ -91,9 +93,39 @@ loadData = function () {
           })
 }*/
 
+var tooltip = d3.select("#tooltip")
+	.style("position", "absolute")
+	.style("z-index", "10")
+	.style("visibility", "hidden")
+	.html("a simple tooltip");
+	
+
+
+
+
+tooltipMouseOver = function(d) {
+	var text;
+	if (d.properties == undefined) {
+		text = "<p>No available data</p>";
+	} else {
+		text ="<H5>Governity "+d.properties.id+"</H5><p>"
+		+" casualties on month "+currentStep+": "+d.properties.monthlyValues[currentStep]+"</p>";	
+	}
+	tooltip.html(text);
+	return tooltip.style("visibility", "visible");
+}
+
+tooltipMousemove = function() {
+	return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
+}
+
+tooltipMouseout = function () {
+	return tooltip.style("visibility", "hidden");
+}	
+
 dataLoadedHandler = function(event) {
 	window.colorManager.init(window.dataManager.maxCasualties);
-	for (var i=0;i<12;i++) {
+	for (var i=0;i<2;i++) {
 		frames[i] = createSmallMultiple(i);
 		
 	}
@@ -138,7 +170,7 @@ refreshAnimation = function () {
             console.log("value = "+currentValue+ " color = "+currentColor);
             console.log(d);
             return output;            
-          })
+          })        	         
           
 }
 
@@ -162,11 +194,16 @@ createAnimation = function (initStep) {
          	 	if (d.properties == undefined) {
          		   	return 0;
          	   }
-        	    var currentValue=d.properties.monthlyValues[initStep];
-        	    currentColor=window.colorManager.getColor(currentValue);            
+        	    var currentValue =	d.properties.monthlyValues[initStep];
+        	    currentColor	 =	window.colorManager.getColor(currentValue);            
         	   	 return output;            
-          	})       	
+          	})
+          	.on("mouseover", 	tooltipMouseOver)
+			.on("mousemove", 	tooltipMousemove)
+			.on("mouseout", 	tooltipMouseout);
 }
+
+
 
 createSmallMultiple = function (currentFrameIndex) {
 			console.log("createSmallMultipe");
@@ -190,9 +227,15 @@ createSmallMultiple = function (currentFrameIndex) {
         	    var currentValue=d.properties.monthlyValues[currentFrameIndex];
         	    currentColor=window.colorManager.getColor(currentValue);            
         	   	 return output;            
-          	})   
+          	})
+          	.on("mouseover", 	tooltipMouseOver)
+			.on("mousemove", 	tooltipMousemove)
+			.on("mouseout", 	tooltipMouseout);   
           	return newSVG;        	
 }
+
+
+
 
 init();
 </script>
