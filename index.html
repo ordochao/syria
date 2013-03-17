@@ -1,7 +1,10 @@
 <!DOCTYPE html>
+<head>
 <meta charset="utf-8">
-<link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="styles/main.css" rel="stylesheet" media="screen">
+	<link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+	<link href="lib/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen"/>
+	<link href="styles/syria.css" rel="stylesheet" media="screen"/>
+</head>
 <body >
 	<script src="http://d3js.org/d3.v2.min.js"></script>
 	<script src="lib/colorbrewer.js"></script>
@@ -13,27 +16,46 @@
     <script src="scripts/syriaCartogram.js"></script>
     <script src="scripts/colorManager.js"></script>
     <!-- Application Structure-->
+
     <h1 class="title">THE SYRIAN CIVIL WAR</h1>
 
-	<div>
-		<p class="label">This is the animation</p>
-	</div>	
-	 <div class="row">
-		<div id="mapCanvas" class="row">
-	</div>	    		
-	<div class="mapNavigator">
-	    	<div class="inline controls" >
-				<button type = "button" class="frameToFrameButton" onclick="previousStep()"><</button>
-				<span id="monthDisplayer">Month 0</span>		
-				<button type = "button" class="frameToFrameButton" onclick="nextStep()">></button>
-			</div>  
-	 </div>
-	 <div>
-		<p class="label">These are the small multiples</p>
-	</div>	
-		<div id="smallMultiplesCanvas" class="row" >	
+  </div><!-- /row -->
+  <div class="row show-grid" title="16 column layout">  	
+  	<div class="span2">Lorem Ipsum</div>
+    <div class="span6">
+    	<p class="label">This is the animation</p>
+    	<div id="mapCanvas" >
 		</div>
+		<div class="mapNavigator">	    					
+			<button type = "button" class="frameToFrameButton" onclick="previousStep()"><</button>
+			<span id="monthDisplayer">Month 0</span>		
+			<button type = "button" class="frameToFrameButton" onclick="nextStep()">></button>
+		</div> 
+    </div>
+    <div class="span5">
+    	<p class="label">These are the small multiples</p>		
+		<div id="smallMultiplesCanvas" class="sidebar"/>	
 	</div>
+  </div><!-- /row -->
+  <div class="row show-grid" title="8 column layout">
+  	<div class="span2">Line charset</div>
+  </div>  
+
+
+    <div class="container">
+		<div class="bs-docs-grid">	
+			<div class="row show-grid">
+				
+					
+					
+ 
+				
+					
+				
+		 	</div>
+		</div>	    		
+	</div>
+	
 	<div id="tooltip" class="customToolTip"/>
 	<div>
 		<p class="label">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in velit sit amet metus blandit euismod. In elementum cursus porta. Sed a erat augue. Quisque ut odio ut erat eleifend adipiscing. Etiam sed ornare magna. Cras volutpat lobortis neque, eu condimentum nibh porta mollis. Nunc nec ante in lectus malesuada malesuada. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
@@ -58,6 +80,9 @@ var animSVG = d3.select("#mapCanvas").append("svg")
 			.attr("class", "map");
 
 var governities;
+
+
+var numberOfSmallMultiples=20;
 
 init = function () {
 	window.cartogram.init();
@@ -108,7 +133,7 @@ tooltipMouseOver = function(d) {
 	if (d.properties == undefined) {
 		text = "<p>No available data</p>";
 	} else {
-		text ="<H5>Governity "+d.properties.id+"</H5><p>"
+		text ="<H5>"+window.dataManager.infoById(d.properties.id).Gov_EN+"</H5><p>"
 		+" casualties on month "+currentStep+": "+d.properties.monthlyValues[currentStep]+"</p>";	
 	}
 	tooltip.html(text);
@@ -125,7 +150,7 @@ tooltipMouseout = function () {
 
 dataLoadedHandler = function(event) {
 	window.colorManager.init(window.dataManager.maxCasualties);
-	for (var i=0;i<2;i++) {
+	for (var i=0;i<numberOfSmallMultiples;i++) {
 		frames[i] = createSmallMultiple(i);
 		
 	}
@@ -158,17 +183,17 @@ refreshAnimation = function () {
           	var features 	= cartoInfo.features;
           	var currentPath = cartoInfo.path;
 
-			governities.data(features).transition().attr("d", currentPath)  
-          	.duration(750)
+			governities.data(features,function (d) {return d.id;})			
+			.transition()
+			.duration(750)
+			.attr("d", currentPath)  
           	.ease("linear")
           	.attr("fill", function(d) {
           	if (d.properties == undefined) {
             	return 0;
             }
             var currentValue=d.properties.monthlyValues[currentStep];
-            currentColor=window.colorManager.getColor(currentValue);                        
-            console.log("value = "+currentValue+ " color = "+currentColor);
-            console.log(d);
+            currentColor=window.colorManager.getColor(currentValue);                                    
             return output;            
           })        	         
           
@@ -185,7 +210,7 @@ createAnimation = function (initStep) {
 			governities = animSVG.selectAll("path")
 			.attr("width", width)
 			.attr("height", height)
-			.data(features)
+			.data(features,function (d) {return d.id;})
 			.enter().append("path").attr("d",currentPath)			
 			.attr("class", "map")
 			.attr("preserveAspectRatio", "none")			
@@ -217,7 +242,7 @@ createSmallMultiple = function (currentFrameIndex) {
 			.attr("height", heightSM)
 			.attr("preserveAspectRatio", "none")
 			.attr("class", "map")
-			newSVG.selectAll("path").data(features)
+			newSVG.selectAll("path").data(features,function (d) {return d.id;})
 			.enter().append("path")
 			.attr("d",currentPath)
           	.attr("fill", function(d) {

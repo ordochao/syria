@@ -17,8 +17,9 @@ window.cartogram = {
 	defineCartoFunction: function() {
 			window.cartogram.carto = d3.cartogram()
 			.projection(window.cartogram.projection)
-			.properties(function(d) {				
-				return window.dataManager.dataById[d.id];
+			.properties(function(d) {
+				var output = window.dataManager.casualtiesByMonthById[d.id];		
+				return output
             }).value(function(d) {
             	if (d.properties == undefined) {
             		output = window.cartogram.defaultValue;
@@ -26,7 +27,7 @@ window.cartogram = {
             		var output = (!isNaN(d.properties.monthlyValues[currentValue])) ? +d.properties.monthlyValues[currentValue]+window.cartogram.defaultValue+Math.random():1;
             		
             	}   
-            	console.log("id="+d.id+"output="+output);	         	
+            	//console.log("id="+d.id+"output="+output);	         	
             	return output;       
             });
 	},
