@@ -1,0 +1,183 @@
+@import "compass_twitter_bootstrap";
+
+
+/* MAIN STURCTURE */
+.header h1{
+	background-color: #424444;
+	color: #DDD;
+	padding-left: 20px;
+	margin-top: 0px;
+	font-size: 16pt;
+	font-family: "Helvetica";
+	font-weight: lighter;
+}
+
+
+.main {
+	display: 		inline-block;
+	float: 			center;
+}
+
+
+/* NEWS */
+
+.news_view {
+	width: 			310px;
+	height: 		350px;
+	overflow: 		scroll;
+	margin-left: 	10px;
+	padding-left: 	15px;
+	padding-right: 	15px;
+	background-color: #FFEEDD;
+	border-radius: 	15px;
+	border: 		solid #EEE 3px;
+	font-family: 	"Helvetica";
+	float: 			left;
+}
+
+#articleTitle {
+	font-size: 		20pt;	
+}
+
+#articleHeadline {
+	font-size: 		12pt;
+	margin-top: 	10px;
+}
+
+#articleBody {
+	font-size: 		9pt;
+	margin-top: 	10px;
+}
+
+
+/* ANIMATION */
+
+#animationCanvas {
+	width: 			350px;
+	height: 		350px;
+	margin-left: 	15px;
+	padding-left: 	15px;
+	padding-right: 	15px;
+	border-radius: 	15px;
+	border: 		solid #EEE 3px;
+	font-family: 	"Times News Roman";
+	float: 			left;
+
+}
+
+
+
+
+/* TIME LINE */
+
+#timelineCanvas {
+	width: 			1188px;
+	height: 		225px;
+	margin-left: 	15px;
+	margin-top: 	15px;
+	padding-left: 	15px;
+	padding-right: 	15px;
+	border-radius: 	15px;
+	border: 		solid #EEE 3px;
+	font-family: 	"Times News Roman";
+	float: 			left;
+}
+
+
+/* TOOL TIP*/
+.customToolTip {
+	color: #444;
+	background-color: #EEE;	
+	border-style: 	solid;
+	border-color: 	#F06464;
+	visibility: "hidden";
+}
+
+
+.customToolTip H5 {
+	font-size: 10pt;
+	text-align: center;
+	vertical-align: top;
+	color: #EEE;
+	background-color: #F06464;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 5px;
+	height: 20px;
+	width: 100%;
+}
+
+.customToolTip p {
+	font-size: 9pt;
+	padding-left: 	10px;
+	padding-right: 	10px;
+}
+
+/*TimeLine*/
+#timelineView svg {
+  font: 10px sans-serif;
+}
+
+#timelineView path {
+  fill: steelblue;
+}
+
+#timelineView .axis path,
+#timelineView .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+#timelineView .brush .extent {
+  stroke: #A00;
+  background-color: #A00;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+
+/* SMALL MULTIPLES */
+
+#smallMultiplesCanvas {
+	width: 			450px;
+	height: 		340px;
+	margin-left: 	15px;
+	padding: 		5px;
+	border-radius: 	15px;
+	border: 		solid #EEE 3px;
+	font-family: 	"Helvetica";
+	float: 			left;
+	overflow: 		scroll;
+}
+.smallMultiplesItem {  
+  background-color: #FFEEDD;
+  border: 			solid #FDA 2px;
+  display: 			inline-block;
+  width: 			100px;
+  height: 			100px;
+  margin: 			2px;
+  padding-left: 	2px;
+  overflow: 		hidden;
+  border-radius: 	15px;
+  border: 		solid #EEE 3px;
+  font-family: 	"Helvetica";
+  float: 			left;
+}
+
+
+.thumbTitle {  
+  color:			#444;
+  font-size:		8pt;
+  overflow: 		hidden;
+
+}
+
+.thumbDate {  
+  color:			#444;
+  font-size:		8pt;
+  overflow: 		hidden;
+  margin-bottom: 	2px;
+  font-weight: 		bold;
+
+}

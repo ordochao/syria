@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body >
+	    <script src="http://d3js.org/d3.v2.min.js"></script>
+      <script src="../lib/topojson.js"></script>
+      <script src="../lib/cartogram.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      <script src="../scripts/dataManager.js"></script>
+<script>
+
+
+
+initialize = function () {
+    $('body').on(window.dataManager.LOADED_DATA_EVENT, checkResult);
+    dataManager.loadData();
+},
+  
+
+checkResult = function(event) {
+  unitTesting();
+}
+
+unitTesting = function() {
+  console.log("____________________________________________________________");
+  console.log("UNIT TESTING: DataManager");
+  console.log("____________________________________________________________");
+  //Topology
+  try {
+    console.log("Number of arcs in topology: "+window.dataManager.topology.arcs.length);
+  } catch (err) {
+    console.log("topology is not properly working. "+err);
+  }
+  //Casualties
+  try {
+    console.log("Casualties on last month in governorates with id 13: "+window.dataManager.dataById[13].monthlyValues[22]);
+  } catch (err) {
+    console.log("Casualties is not properly working. "+err);
+  }
+  //Geometries
+  try {
+    console.log("Number of governorates: "+window.dataManager.governorates.length);
+  } catch (err) {
+    console.log("Governorates is not properly working. "+err);
+  }
+  console.log("____________________________________________________________");
+}
+
+initialize();
+
+</script>

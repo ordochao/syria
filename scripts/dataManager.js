@@ -1,76 +1,106 @@
 window.dataManager = {
-    geometriesURL: 		"data/syriaGovernTopoSimplified.json",
-    casualtiesURL: 		"data/governMonthly.json",
-    dataURL: 			"data/governData.csv",
-
+	governURL: 		"data/govern.json",
+	dailyURL: 		"data/daily.json",
+    geoURL: 		"data/syriaGovernTopo.json",
+    newsURL: 		"data/news.csv",    
 
     LOADED_DATA_EVENT : "LOADED_DATA_EVENT",
     
-    casualtiesByMonthById	 	: {},
+    governities	 	  :{},
     topology	 	: {},
-    governorates 	: {},
-    dataInfo 		: {},
+    polygons	 	: {},
+    dailyReport		: [],
+    news			: [],
     minCasualties	: 0,
     maxCasualties	: -1,
+	 numberOfDays	: 0,
+	 numberOfGovernities	:14,
 
-
-    loadData : function () {
-
-        d3.json(this.casualtiesURL, this.loadedCasualtiesData );
+	loadData : function () {
+    	console.log("Starting loading Data")
+    	//console.log(window.dataManager.governURL)
+        d3.json(window.dataManager.governURL, window.dataManager.loadedGovernData);
     },
 
-
-    loadedCasualtiesData : function(loadedCasualites) {
-		casualties = loadedCasualites;
-		var candidate = -1;
-		window.dataManager.casualtiesByMonthById = d3.nest()
-	            .key(function(d) { 
-	            	return d.id; })
-	            .rollup(function(d) { 	 
-	            	//console.log(d[0].monthlyValues);
-	            	for (var i=0;i<d[0].monthlyValues.length;i++) {
-	            		candidate = parseInt(d[0].monthlyValues[i]);	
-	            		//console.log(candidate);
-	            		window.dataManager.maxCasualties = (candidate > window.dataManager.maxCasualties) ? candidate:window.dataManager.maxCasualties;
-	            	}
-					//console.log(window.dataManager.maxCasualties);	            	           	
-	            	return d[0]; })
-	            .map(loadedCasualites);
-		window.dataManager.startLoadingMapData();
+    startLoadingDailyData : function () {
+		d3.json(window.dataManager.dailyURL, window.dataManager.loadedDailyData );
 	},
 
 	startLoadingMapData : function () {
-		d3.json(this.geometriesURL, this.loadedMapData );	
+		d3.json(this.geoURL, window.dataManager.loadedMapData );	
 	},
+
+	startLoadingNews: function() {
+		d3.csv(this.newsURL, this.loadedNews );
+	},
+
+    loadedGovernData : function (source) {
+    	console.log("Loaded data about governities")
+    	//console.log(source);
+    	window.dataManager.governities = source;
+    	window.dataManager.startLoadingDailyData();
+    	
+    },
+
+    loadedDailyData : function(source) {
+
+    	console.log("Loaded data about daily reports");
+    	window.dataManager.dailyReport = {};
+    	window.dataManager.numberOfDays = source[0].dailyDeath.length;
+    	var currentDate = new Date(2011,2,18);
+  		for (var i=0;i < window.dataManager.numberOfDays;i++) {
+  			newDate = {};
+  			newDate.date = currentDate.toString('yyyy-MM-dd');						
+  			newDate.entries = [];
+  			for (var j=0;j < window.dataManager.numberOfGovernities;j++) {
+  				newEntry = {};
+  				newEntry.id = source[j].id;
+  				newEntry.value = source[j].dailyDeath[i].total;
+  				newDate.entries[j]=newEntry;
+  			}
+        newDate.total = source[window.dataManager.numberOfGovernities].dailyDeath[i].total; 
+  			window.dataManager.dailyReport[i] = newDate;
+  			currentDate.setDate(currentDate.getDate()+1);
+  		}
+  		//console.log(window.dataManager.dailyReport);
+		window.dataManager.startLoadingMapData();
+	},
+
+
 
 	loadedMapData : function(topo) {
+		console.log("Loaded map");
 		window.dataManager.topology 		= topo;
-		window.dataManager.governorates 	= window.dataManager.topology.objects.syriaGovern.geometries;
-		window.dataManager.startLoadingTotalData();
+		window.dataManager.polygons 		= window.dataManager.topology.objects.syriaGovern.geometries;
+		window.dataManager.startLoadingNews();
 	},
 
-	startLoadingTotalData: function() {
-		d3.csv(this.dataURL, this.loadedTotalData );		
-	},
 
-	loadedTotalData : function(data) {
-		console.log(data);
-		window.dataManager.dataInfo = d3.nest()
-	          .key(function(d) {
-	          	var newKey = (d.Gov_ID < 10) ? "0"+d.Gov_ID:d.Gov_ID;
-	            return newKey; })
-	          .rollup(function(d) { return d[0]; })
-	         .map(data);
+	loadedNews : function(source) {
+		console.log("Loaded news");
+		window.dataManager.news = source;
 		window.dataManager.notifyDataHasBeenLoaded();
 	},
 
 	notifyDataHasBeenLoaded : function() {
+		console.log("Loaded the whole data");
 		dataLoadedEvent = $("body").trigger(window.dataManager.LOADED_DATA_EVENT);
 	},
 
-	infoById: function(id) {
-		return window.dataManager.dataInfo[id];
-	},
+  infoById : function(id) {
+      var output = {}
+      var items = window.dataManager.governities.governs;
+      for (var i=0;i<items.length;i++) {
+        if (items[i].Gov_ID == id) {
+          output.name = items[i].Gov_EN;
+          return output;
+        }        
+      }
+      output.name = "No name"
+      return output;
+  }
+
+
 
 
 }

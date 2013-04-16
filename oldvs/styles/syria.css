@@ -1,0 +1,109 @@
+path {
+  stroke: #000;
+  stroke-width: .2px;
+}
+
+.map {
+  background-color: #F0F0F0;
+  border: #000;
+  text-align: center;
+  stroke-width: 0.05px;
+  vertical-align: bottom;
+}
+
+.title {
+	font-size:  20pt;
+	margin-top: 0px;
+	padding-top: 5px;
+	padding-left: 20px;
+	margin-bottom: 2px;
+	padding-bottom: 2px;
+	background-color: #444;
+	color: #EEE;
+}
+
+.mapNavigator {
+	padding-top: 5px;
+	padding-left: 25px;
+}
+
+#mapCanvas {
+	border-style: 	solid;
+	border-width: 	1px;
+	border-color:	#AAA;
+	margin-left: 	50px;
+	margin-top: 	10px;
+	margin-bottom: 10px;
+	width: 525px;
+}
+
+#smCanvas {
+	border-style: 	solid;
+	border-width: 	1px;
+	border-color:	#AAA;
+	margin-left: 	50px;
+	margin-top: 	10px;
+	margin-bottom: 	10px;
+	width: 			400px;
+}
+
+.frameToFrameButton {
+	width: 30px;
+	padding-top: 0px;
+	font-weight: bold;
+}
+
+.customToolTip {
+	color: #444;
+	background-color: #EEE;	
+	border-style: 	solid;
+	border-color: 	#F06464;
+}
+
+
+.customToolTip H5 {
+	font-size: 10pt;
+	text-align: center;
+	vertical-align: top;
+	color: #EEE;
+	background-color: #F06464;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 5px;
+	height: 20px;
+	width: 100%;
+}
+
+.customToolTip p {
+	font-size: 9pt;
+	padding-left: 	10px;
+	padding-right: 	10px;
+}
+
+.controls {
+	margin-left: 10px;
+}
+
+#syriaImage {	
+	width:		500px;
+	text-align: right;
+	display: 	block;
+}
+
+#monthDisplayer {
+	margin-top:		10px;
+	margin-left: 	10px;
+	margin-right: 	10px;
+	font-size: 		10pt;
+}
+
+#smallMultiplesCanvas {
+	border-style: 	solid;
+	border-width: 	1px;
+	border-color:	#AAA;
+	margin-left: 	50px;
+	margin-top: 	10px;
+	margin-bottom: 	10px;
+	width: 			400px;
+	height: 		525px;
+}

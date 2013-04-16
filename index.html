@@ -1,266 +1,102 @@
 <!DOCTYPE html>
-<head>
-<meta charset="utf-8">
-	<link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-	<link href="lib/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen"/>
-	<link href="styles/syria.css" rel="stylesheet" media="screen"/>
-</head>
-<body >
-	<script src="http://d3js.org/d3.v2.min.js"></script>
-	<script src="lib/colorbrewer.js"></script>
-    <script src="lib/topojson.js"></script>
-    <script src="lib/cartogram.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="scripts/dataManager.js"></script>
-    <script src="scripts/syriaCartogram.js"></script>
-    <script src="scripts/colorManager.js"></script>
-    <!-- Application Structure-->
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
 
-    <h1 class="title">THE SYRIAN CIVIL WAR</h1>
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-  </div><!-- /row -->
-  <div class="row show-grid" title="16 column layout">  	
-  	<div class="span2">Lorem Ipsum</div>
-    <div class="span6">
-    	<p class="label">This is the animation</p>
-    	<div id="mapCanvas" >
-		</div>
-		<div class="mapNavigator">	    					
-			<button type = "button" class="frameToFrameButton" onclick="previousStep()"><</button>
-			<span id="monthDisplayer">Month 0</span>		
-			<button type = "button" class="frameToFrameButton" onclick="nextStep()">></button>
-		</div> 
+        
+        <link rel="stylesheet" href="styles/main.css">
+        <script src="scripts/vendor/modernizr.min.js"></script>
+    </head>
+    <body>
+
+        
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v0.min.js"></script>
+<script src="scripts/colorManager.js"></script>
+<script src="scripts/timeManager.js"></script>
+<script src="scripts/animationEngine.js"></script>
+<script src="scripts/dataManager.js"></script>
+<script src="scripts/toolTip.js"></script>
+<script src="scripts/timeline.js"></script>
+<script src="scripts/smallMultiples.js"></script>
+
+
+    <div class="header">    
+        <h1>SYRIAN CIVIL WAR</h1>
     </div>
-    <div class="span5">
-    	<p class="label">These are the small multiples</p>		
-		<div id="smallMultiplesCanvas" class="sidebar"/>	
-	</div>
-  </div><!-- /row -->
-  <div class="row show-grid" title="8 column layout">
-  	<div class="span2">Line charset</div>
-  </div>  
+    <div class="main">        
+        <div id="animationCanvas">            
+        </div>
+        <div id="smallMultiplesCanvas">
+        </div>
+        <div class="news_view">
+            <h4 id="articleTitle">Syrian civil war</h4>
+            <h7 id="articleHeadline">The Syrian civil war is an ongoing armed conflict in Syria between forces loyal to the Syrian Ba'ath Party government and those seeking to oust it.</h7>
+            <p id="articleBody">
+            The conflict began on 15 March 2011, with popular demonstrations that grew nationwide by April 2011. These demonstrations were part of the wider Middle Eastern protest movement known as the Arab Spring. Protesters demanded the resignation of President Bashar al-Assad, whose family has held the presidency in Syria since 1971, as well as the end to over four decades of Ba'ath Party rule.war</p>
+        </div>
+        <div id="timelineCanvas">
+            <a href="http://bl.ocks.org/mbostock/1667367">Link</a>
+            <input type="button" value="Previous" onclick="window.timeManager.previous()" >
+            <input type="button" value="Next" onclick="window.timeManager.next()" >
+            <p id="dateLabel"></p>
+             <div id="timelineView"/>
+        </div>
+        
+    </div>
+
+    <div id="tooltip" class="customToolTip"/>
 
 
-    <div class="container">
-		<div class="bs-docs-grid">	
-			<div class="row show-grid">
-				
-					
-					
- 
-				
-					
-				
-		 	</div>
-		</div>	    		
-	</div>
-	
-	<div id="tooltip" class="customToolTip"/>
-	<div>
-		<p class="label">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in velit sit amet metus blandit euismod. In elementum cursus porta. Sed a erat augue. Quisque ut odio ut erat eleifend adipiscing. Etiam sed ornare magna. Cras volutpat lobortis neque, eu condimentum nibh porta mollis. Nunc nec ante in lectus malesuada malesuada. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-	</div>	
-	
+
+        <!-- Add your site or application content here -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="scripts/vendor/jquery.min.js"><\/script>')</script>
+        
+        
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
     
-<script>
+    <!-- build:js scripts/plugins.js -->
+    <script src="scripts/vendor/bootstrap/bootstrap-affix.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-alert.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-dropdown.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-tooltip.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-modal.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-transition.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-button.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-popover.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-typeahead.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-carousel.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-scrollspy.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-collapse.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-tab.js"></script>
+    <!-- endbuild -->
 
-var width = 525,
-    height = 500;
-
-var widthSM 	= 150,
-    heightSM 	= 150;
-
-var currentStep = 0;
-
-var frames = [];
-
-var animSVG = d3.select("#mapCanvas").append("svg")
-			.attr("width", width)
-			.attr("height", height)
-			.attr("class", "map");
-
-var governities;
-
-
-var numberOfSmallMultiples=20;
-
-init = function () {
-	window.cartogram.init();
-	loadData();
-}
-
-/*tooltip = d3.select("body")
-	.append("div")
-	.style("position", "absolute")
-	.style("z-index", "10")
-	.style("visibility", "hidden")
-	.text("a simple tooltip");*/
-
-loadData = function () {
-	$('body').on(window.dataManager.LOADED_DATA_EVENT, dataLoadedHandler);
-    dataManager.loadData();
-}
-
-/*dataLoadedHandler = function(event) {
-	window.colorManager.init(window.dataManager.maxCasualties);
-	features = window.cartogram.getFeatures(currentStep);	
-	states = svg.selectAll("path").data(features)
-	.enter().append("path")
-	.attr("d",window.cartogram.carto.path)
-          .attr("fill", function(d) {
-          	if (d.properties == undefined) {
-            	return 0;
-            }
-            var currentValue=d.properties.monthlyValues[currentStep];
-            currentColor=window.colorManager.getColor(currentValue);            
-            console.log("value = "+currentValue+ " color = "+currentColor);
-            return output;            
-          })
-}*/
-
-var tooltip = d3.select("#tooltip")
-	.style("position", "absolute")
-	.style("z-index", "10")
-	.style("visibility", "hidden")
-	.html("a simple tooltip");
-	
+    <!-- build:js scripts/amd-app.js -->
+    <script data-main="scripts/main" src="scripts/vendor/require.js"></script>
+    <!-- endbuild -->
 
 
 
 
-tooltipMouseOver = function(d) {
-	var text;
-	if (d.properties == undefined) {
-		text = "<p>No available data</p>";
-	} else {
-		text ="<H5>"+window.dataManager.infoById(d.properties.id).Gov_EN+"</H5><p>"
-		+" casualties on month "+currentStep+": "+d.properties.monthlyValues[currentStep]+"</p>";	
-	}
-	tooltip.html(text);
-	return tooltip.style("visibility", "visible");
-}
-
-tooltipMousemove = function() {
-	return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
-}
-
-tooltipMouseout = function () {
-	return tooltip.style("visibility", "hidden");
-}	
-
-dataLoadedHandler = function(event) {
-	window.colorManager.init(window.dataManager.maxCasualties);
-	for (var i=0;i<numberOfSmallMultiples;i++) {
-		frames[i] = createSmallMultiple(i);
-		
-	}
-	createAnimation(0);
-}
-
-nextStep = function () {	
-	currentStep = (currentStep + 1)%23;
-	refreshMonths();
-	refreshAnimation();
-}
-
-previousStep = function () {	
-	currentStep = (currentStep - 1);
-	if (currentStep < 0) currentStep = 22;	
-	refreshMonths();
-	refreshAnimation();
-}
-
-refreshMonths = function () {
-	console.log("Step="+currentStep);
-	d3.select("#monthDisplayer").text("Month "+currentStep);
-}
-
-refreshAnimation = function () {
-			console.log("refreshAnimation");
-			
-          	var cartoInfo 	= window.cartogram.getCartoInfo(currentStep);
-          	console.log(cartoInfo);
-          	var features 	= cartoInfo.features;
-          	var currentPath = cartoInfo.path;
-
-			governities.data(features,function (d) {return d.id;})			
-			.transition()
-			.duration(750)
-			.attr("d", currentPath)  
-          	.ease("linear")
-          	.attr("fill", function(d) {
-          	if (d.properties == undefined) {
-            	return 0;
-            }
-            var currentValue=d.properties.monthlyValues[currentStep];
-            currentColor=window.colorManager.getColor(currentValue);                                    
-            return output;            
-          })        	         
-          
-}
 
 
-createAnimation = function (initStep) {
-			console.log("createAnimation");
-
-          	var cartoInfo 	= window.cartogram.getCartoInfo(currentStep);
-          	var features 	= cartoInfo.features;
-          	var currentPath = cartoInfo.path;
-
-			governities = animSVG.selectAll("path")
-			.attr("width", width)
-			.attr("height", height)
-			.data(features,function (d) {return d.id;})
-			.enter().append("path").attr("d",currentPath)			
-			.attr("class", "map")
-			.attr("preserveAspectRatio", "none")			
-			.attr("transform", "scale(4),translate(0,-10)")
-			.attr("fill", function(d) {
-         	 	if (d.properties == undefined) {
-         		   	return 0;
-         	   }
-        	    var currentValue =	d.properties.monthlyValues[initStep];
-        	    currentColor	 =	window.colorManager.getColor(currentValue);            
-        	   	 return output;            
-          	})
-          	.on("mouseover", 	tooltipMouseOver)
-			.on("mousemove", 	tooltipMousemove)
-			.on("mouseout", 	tooltipMouseout);
-}
-
-
-
-createSmallMultiple = function (currentFrameIndex) {
-			console.log("createSmallMultipe");
-
-          	var cartoInfo 	= window.cartogram.getCartoInfo(currentFrameIndex);
-          	var features 	= cartoInfo.features;
-          	var currentPath = cartoInfo.path;
-			
-			var newSVG = d3.select("#smallMultiplesCanvas").append("svg")
-			.attr("width", widthSM)
-			.attr("height", heightSM)
-			.attr("preserveAspectRatio", "none")
-			.attr("class", "map")
-			newSVG.selectAll("path").data(features,function (d) {return d.id;})
-			.enter().append("path")
-			.attr("d",currentPath)
-          	.attr("fill", function(d) {
-         	 	if (d.properties == undefined) {
-         		   	return 0;
-         	   }
-        	    var currentValue=d.properties.monthlyValues[currentFrameIndex];
-        	    currentColor=window.colorManager.getColor(currentValue);            
-        	   	 return output;            
-          	})
-          	.on("mouseover", 	tooltipMouseOver)
-			.on("mousemove", 	tooltipMousemove)
-			.on("mouseout", 	tooltipMouseout);   
-          	return newSVG;        	
-}
-
-
-
-
-init();
-</script>
+</body>
+</html>

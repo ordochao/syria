@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+path {
+  fill: none;
+  stroke: #000;
+  stroke-width: .5px;
+}
+
+.land-boundary {
+  stroke-width: 1px;
+}
+
+.county-boundary {
+  stroke: #aaa;
+}
+
+</style>
+<body >
+	<script src="http://d3js.org/d3.v2.min.js"></script>
+	<script src="lib/colorbrewer.js"></script>
+    <script src="lib/topojson.js"></script>
+    <script src="cartogram.js"></script>
+    <button type = "button" onclick="nextStep()">Next</button>
+<script>
+
+var width = 800,
+    height = 550;
+
+var proj = d3.geo.albers();
+proj.origin([34.957995,38.496094]);
+    proj.translate([175,-75]);
+    proj.parallels([32,42]);
+    proj.scale(5120);
+
+var path = d3.geo.path().projection(proj);
+
+
+
+
+
+
+var carto = d3.cartogram()
+			.projection(proj)
+			.properties(function(d) {
+				console.log(d.properties);
+              	return d.properties;
+            }).value(function(d) {
+            	console.log(d.properties.monthlyValues[currentValue]);
+            	return d.properties.monthlyValues[currentValue]*100+1;
+            });
+
+var currentValue = 0;
+console.log("executed")
+
+colors = colorbrewer.RdYlBu[3]
+            .reverse()
+            .map(function(rgb) { 
+            	return d3.hsl(rgb); });
+
+init = function () {
+	console.log("init called")
+	refreshJson();
+}
+
+d3.json("data/syriaGovernTopo2.json", function(topology) {
+		var geom = topology.objects.syriaGovern.geometries;
+		
+});		
+
+nextStep = function () {
+	currentValue = (currentValue + 1)%7;
+	console.log("currentValue is " + currentValue);
+	refreshJson();
+}
+
+refreshJson = function () {
+		console.log("refreshed json");
+
+		/*var color = d3.scale.linear()
+          .range(colors)
+          .domain(0,20);*/
+
+		d3.select("svg").remove();
+
+		var svg = d3.select("body").append("svg")
+	    .attr("width", width)
+	    .attr("height", height);
+	    
+		var features = carto(topology,geom).features;  
+
+		var g = svg.append("g").selectAll("path");
+
+		
+		g = g.data(features)
+		.enter().append("path")
+		.attr("d",carto.path)
+		.attr("class", "state-boundary");
+}
+init();
+</script>
