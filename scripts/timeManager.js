@@ -84,8 +84,9 @@ window.timeManager = {
 
 
 	notifyChange : function() {
-		console.log(window.timeManager.currentPositions);
-		window.animationEngine.update()
+		//console.log(window.timeManager.currentPositions);
+		window.animationEngine.update();
+		window.smallMultiples.update();
 		d3.select("#dateLabel").text(window.timeManager.dates[window.timeManager.currentStep]);
 	}
 

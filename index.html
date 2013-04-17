@@ -14,6 +14,7 @@
 
         
         <link rel="stylesheet" href="styles/main.css">
+        <!--<link rel="stylesheet" href="styles/buttons.css"> -->
         <script src="scripts/vendor/modernizr.min.js"></script>
     </head>
     <body>
@@ -31,7 +32,13 @@
 
 
     <div class="header">    
-        <h1>SYRIAN CIVIL WAR</h1>
+        <h1>Casualties over the Syrian civil war</h1>
+        <div class="searchBox">
+                <p class="searchLabel" >Search words on news:</p>
+                <input type="text" name="q" size="32" id="textInputSearch" onKeyup="window.smallMultiples.filterByTerm(document.getElementById('textInputSearch').value)"/>
+                <!--<a onClick="window.smallMultiples.filterByTerm(document.getElementById('textInputSearch').value)" class="searchButton" >Search</a>-->
+            </form>
+        </div>
     </div>
     <div class="main">        
         <div id="animationCanvas">            
@@ -45,10 +52,10 @@
             The conflict began on 15 March 2011, with popular demonstrations that grew nationwide by April 2011. These demonstrations were part of the wider Middle Eastern protest movement known as the Arab Spring. Protesters demanded the resignation of President Bashar al-Assad, whose family has held the presidency in Syria since 1971, as well as the end to over four decades of Ba'ath Party rule.war</p>
         </div>
         <div id="timelineCanvas">
-            <a href="http://bl.ocks.org/mbostock/1667367">Link</a>
+           <!-- <a href="http://bl.ocks.org/mbostock/1667367">Link</a>
             <input type="button" value="Previous" onclick="window.timeManager.previous()" >
             <input type="button" value="Next" onclick="window.timeManager.next()" >
-            <p id="dateLabel"></p>
+            <p id="dateLabel"></p>-->
              <div id="timelineView"/>
         </div>
         

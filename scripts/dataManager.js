@@ -79,6 +79,10 @@ window.dataManager = {
 	loadedNews : function(source) {
 		console.log("Loaded news");
 		window.dataManager.news = source;
+    window.dataManager.news = window.dataManager.news.sort(function (a,b){        
+         return d3.ascending(a.date, b.date);
+    });
+    console.log(window.dataManager.news)
 		window.dataManager.notifyDataHasBeenLoaded();
 	},
 

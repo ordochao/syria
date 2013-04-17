@@ -5,52 +5,131 @@ window.smallMultiples = {
 	positionsInterval: 	[],
 
 	init : function (theMaximumValue) {
-		window.smallMultiples.view = d3.select("#smallMultiplesCanvas")
-      								
-
-      window.smallMultiples.update()
+	  window.smallMultiples.view = d3.select("#smallMultiplesCanvas");
+      window.smallMultiples.numberOfNews = window.dataManager.news.length;								
+      window.smallMultiples.update();
 	},
 
-
-	filterByInterval : function(interval) {
-
-	},
 
 	update : function() {      
-	  console.log("UPDATE NEWS");
-	  console.log(window.dataManager.news);
+	  //console.log("UPDATE NEWS");
+	  //console.log(window.dataManager.news);
+	 
+	  minDate = new Date(window.timeManager.currentDateInterval[0]);
+	  maxDate = new Date(window.timeManager.currentDateInterval[1]);	
+	  minNewsIndex = 0;
+	  maxNewsIndex = window.smallMultiples.numberOfNews;
+	  currentDate = {};	  
+	  for (var i=0;i<window.smallMultiples.numberOfNews;i++) {
+	  	currentDate = new Date(window.dataManager.news[i].date);
+	  	if(currentDate > minDate) {
+	  		minNewsIndex = i;
+	  		break;
+	  	}
+	  		
+	  }
+	  for (var i=minNewsIndex;i<window.smallMultiples.numberOfNews;i++) {
+	  	currentDate = new Date(window.dataManager.news[i].date)
+	  	if(currentDate > maxDate) {
+	  		maxNewsIndex = i;
+	  		break;
+	  	}
+	  }	
+	 
+	 
+	currentNews = window.dataManager.news.slice(minNewsIndex,maxNewsIndex);	
+
       updatedElements = window.smallMultiples.view.selectAll(".smallMultiplesItem")
-      					.data(window.dataManager.news,function(d) {console.log(d);return d.id})
+      					.data(currentNews,function(d) {return d.id})
 	
-	  /*updatedElements.enter().append("svg")
-	  				.attr("class",".smallMultiplesItem")
-	  				.attr("width",150)
-	  				.attr("height",150)
-	  				.attr("x",function (d,i) {return i%3*150})
-	  				.attr("y",function (d,i) {return Math.floor(i/3)*150})
-	  				.append("text")
-	  				.text("test")
-	  				.attr("color","#FF0000")	      					*/
 		updatedElements.enter().append("div")
-	  				.attr("class","smallMultiplesItem")
-	  				.html(function(d) {console.log(d);return "<p class = \"thumbDate\">"+d.date.toString("yyyy/mm/dd")+"</<p><p class = \"thumbTitle\">"+d.title+"</p>"} );	  				
-/*
+	  				.attr("class",function (d) {
+	  					return window.smallMultiples.getProperClass(d);
+	  				})
+	  				.html(function(d) {return "<p class = \"thumbDate\">"+d.date.toString("yyyy/mm/dd")+"</<p><p class = \"thumbTitle\">"+d.title+"</p>"} )
+	  				.on("click",function(d) {	  					
+	  					if (d3.select(this).attr("class").indexOf("selectedItem") == -1) {
+	  						window.smallMultiples.resetSelectedFilter();
+	  						d3.select(this).attr("class",d3.select(this).attr("class") + " selectedItem");	
+	  					} else {
+	  						d3.select(this).attr("class",d3.select(this).attr("class").replace(" selectedItem",""));	
+	  					}
+	  					
+	  				});
 
-      updatedElements.transition().duration(200)
-      .attr("fill", function(d) {   
-        //console.log("Update");      
-        color = window.colorManager.getColor(d.properties.value);        
-      return color;})
 
-      updatedElements.enter().append("path")
-      .attr("fill", function(d) { 
-        //console.log("Enter");
-        color = window.colorManager.getColor(d.properties.value);
-        return color;})
-      .attr("d", window.animationEngine.path)
-      .on("mouseover",  window.toolTip.show)
-      .on("mousemove",  window.toolTip.moving)
-      .on("mouseout",   window.toolTip.hide);*/
+
+		updatedElements.attr("class",function (d) {
+						return window.smallMultiples.getProperClass(d);
+	  				})
+	  				.html(function(d) {return "<p class = \"thumbDate\">"+d.date.toString("yyyy/mm/dd")+"</<p><p class = \"thumbTitle\">"+d.title+"</p>"} )
+	  				.attr("style","");
+
+	  	updatedElements.exit().transition().duration(1000)
+	  							.attr("style","opacity:0.4")
+	  	
+	  	minNewsIndex = 140 * Math.floor(minNewsIndex/3);
+	  	window.smallMultiples.view[0][0].scrollTop = minNewsIndex;
+	  	console.log()	  				
   },
+
+  	filterByTerm : function(term) {
+  		//Reset search
+  		window.smallMultiples.resetWordsFilter()
+  		if (term.length<2) return;
+  		newsWithKeyWordkInTitle=window.smallMultiples.view.selectAll(".smallMultiplesItem").filter(
+  			function (d) {
+  				return d.title.indexOf(term)!=-1;
+  			}
+  		);
+  		newsWithKeyWordkInTitle[0].forEach(
+  			function (item) {
+  				var innerHTML = item.innerHTML; 			   				
+  				var index = innerHTML.indexOf(term);
+				if ( index >= 0 )
+				{ 
+					innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+term.length) + "</span>" + innerHTML.substring(index + term.length);
+				    item.innerHTML = innerHTML 
+				}
+  				item.className = item.className+" foundWordOnItem"
+  			}
+  		)
+  	},
+
+
+  	resetWordsFilter : function() {
+		allNews = window.smallMultiples.view.selectAll(".smallMultiplesItem");
+  		allNews[0].forEach(
+  			 function (item) {
+  			 	item.className=item.className.replace(" foundWordOnItem","");  			 	
+  			 	if (item.innerHTML.indexOf("<span class=\"highlight\">") != -1) {  			 	
+  			 		item.innerHTML=item.innerHTML.replace("<span class=\"highlight\">","")
+  			 		item.innerHTML=item.innerHTML.replace("</span>","")   
+  			 	}
+  			 				  	
+			});
+
+  	},
+
+
+  	resetSelectedFilter : function() {
+		allNews = window.smallMultiples.view.selectAll(".smallMultiplesItem");
+  		allNews[0].forEach(
+  			 function (item) {
+  			 	item.className=item.className.replace(" selectedItem","");  			 				  	
+			});
+
+  	},
+
+	getProperClass : function(d) {
+		var output ="smallMultiplesItem";
+	  	if (d.media == "The Guardian") {
+	  		output = output+" guardianNews" 
+	  	}
+	  	if (d.media == "Syrian deeply") {
+	  		output = output+" syrianDeeplyNews" 
+	  	}
+	  	return output;
+	} 
 
 }

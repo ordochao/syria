@@ -2,21 +2,54 @@
 
 
 /* MAIN STURCTURE */
-.header h1{
-	background-color: #424444;
-	color: #DDD;
-	padding-left: 20px;
-	margin-top: 0px;
-	font-size: 16pt;
-	font-family: "Helvetica";
-	font-weight: lighter;
-}
-
-
 .main {
 	display: 		inline-block;
-	float: 			center;
 }
+
+
+/*HEADER*/
+.header {
+	background-color: #424444;
+	display: 		inline-block;
+	width:  100%	
+}
+
+.header h1 {
+	color: #DDD;
+	padding-left: 20px;
+	margin-top: 10px;
+	font-size: 24pt;
+	font-family: "Helvetica";
+	font-weight: lighter;
+	float: 			left;
+
+}
+
+.searchBox {
+	float: 			right;
+	margin-top: 	20px;
+	margin-bottom: 	0px;
+	margin-right: 	60px;
+	display: 		inline-block;
+}
+
+#textInputSearch {
+	height: 14px;
+	margin-bottom: 0px;
+	float:left;
+}
+
+
+
+.searchLabel {
+	color: 				#FFAA88;
+	padding:			5px; 			
+	border-radius:		5px;
+	margin-right: 		5px;
+	float:left;
+}
+
+
 
 
 /* NEWS */
@@ -30,7 +63,6 @@
 	padding-right: 	15px;
 	background-color: #FFEEDD;
 	border-radius: 	15px;
-	border: 		solid #EEE 3px;
 	font-family: 	"Helvetica";
 	float: 			left;
 }
@@ -59,12 +91,14 @@
 	padding-left: 	15px;
 	padding-right: 	15px;
 	border-radius: 	15px;
-	border: 		solid #EEE 3px;
 	font-family: 	"Times News Roman";
 	float: 			left;
 
 }
 
+#animationCanvas  path {
+  stroke:	#DDDDDD;
+}
 
 
 
@@ -78,7 +112,6 @@
 	padding-left: 	15px;
 	padding-right: 	15px;
 	border-radius: 	15px;
-	border: 		solid #EEE 3px;
 	font-family: 	"Times News Roman";
 	float: 			left;
 }
@@ -145,32 +178,53 @@
 	margin-left: 	15px;
 	padding: 		5px;
 	border-radius: 	15px;
-	border: 		solid #EEE 3px;
 	font-family: 	"Helvetica";
 	float: 			left;
 	overflow: 		scroll;
+
 }
 .smallMultiplesItem {  
-  background-color: #FFEEDD;
-  border: 			solid #FDA 2px;
+  
+  border: 			solid #FFF 3px;
   display: 			inline-block;
-  width: 			100px;
-  height: 			100px;
-  margin: 			2px;
-  padding-left: 	2px;
+  width: 			132px;
+  height: 			132px;
+  margin: 			1px;
+  padding-left: 	6px;
+  padding-right: 	4px;
   overflow: 		hidden;
   border-radius: 	15px;
-  border: 		solid #EEE 3px;
   font-family: 	"Helvetica";
   float: 			left;
+  opacity: 			1;
 }
 
+.guardianNews {
+  background-color: #98bcdb;
+}
+
+.syrianDeeplyNews {
+	background-color:#FFAA88;
+}
+
+.foundWordOnItem {
+	border:			solid #F7FCB9 3px;
+}
+
+.selectedItem {
+	border:			solid #FF0000 3px;
+}
+
+.highlight {
+	background-color: #F7FCB9;
+	color:	#444;
+}
 
 .thumbTitle {  
-  color:			#444;
-  font-size:		8pt;
+  color:			#FFF;
+  font-size:		10pt;
   overflow: 		hidden;
-
+  line-height: 		100%;
 }
 
 .thumbDate {  
@@ -179,5 +233,4 @@
   overflow: 		hidden;
   margin-bottom: 	2px;
   font-weight: 		bold;
-
 }
