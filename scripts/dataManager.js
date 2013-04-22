@@ -2,7 +2,7 @@ window.dataManager = {
 	governURL: 		"data/govern.json",
 	dailyURL: 		"data/daily.json",
     geoURL: 		"data/syriaGovernTopo.json",
-    newsURL: 		"data/news.csv",    
+    newsURL: 		"data/news2.csv",    
 
     LOADED_DATA_EVENT : "LOADED_DATA_EVENT",
     

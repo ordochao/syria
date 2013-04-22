@@ -29,6 +29,9 @@
 <script src="scripts/toolTip.js"></script>
 <script src="scripts/timeline.js"></script>
 <script src="scripts/smallMultiples.js"></script>
+<script src="scripts/contentViewer.js"></script>
+<script src="scripts/stringUtils.js"></script>
+<script src="scripts/animationControls.js"></script>
 
 
     <div class="header">    
@@ -41,24 +44,60 @@
         </div>
     </div>
     <div class="main">        
-        <div id="animationCanvas">            
+        <div id="animationCanvas">
+        <h4 id="articleTitle">Casualties in the conflict</h4>            
         </div>
-        <div id="smallMultiplesCanvas">
+        <div id="contentViewer">
+            <div id="intro" >           
+                <h4 id="articleTitle">Abstract</h4>
+                <p id="articleHeadline">About <strong>50.000 people</strong> died on the syrian civil war up to 1st of January of 2013</p>
+               <p id="articleBody">
+                The Syrian civil war is an ongoing armed conflict in Syria between forces loyal to the Syrian Ba'ath Party government and those seeking to oust it.    
+                The conflict began on 15 March 2011, with popular demonstrations that grew nationwide by April 2011. These demonstrations were part of the wider Middle Eastern protest movement known as the Arab Spring.</p>
+                <p/>
+                <p id="articleHeadline">Number of casualties by governity:</p>
+                <div id="animationLegend"></div>
+                <p id="articleHeadline">Source of the article:</p>                
+                <div class="smallMultiplesItem legend guardianNews"><p><a href="" class="thumbTitle">The Guardian</a></p></div>
+                <div class="smallMultiplesItem legend syrianDeeplyNews"><a href="" class="thumbTitle">Syrian Deeply</a></div>              
+            </div>
+            <div id="newsViewer">
+                <h4 id="articleTitle"></h4>                
+                    <p id="articleLineBy"></p>
+                    <p id="articleDate"></p>                
+                <p id="articleHeadline"></p>
+               <p id="articleBody">
+                </p>                
+            </div>
         </div>
-        <div class="news_view">
-            <h4 id="articleTitle">Syrian civil war</h4>
-            <h7 id="articleHeadline">The Syrian civil war is an ongoing armed conflict in Syria between forces loyal to the Syrian Ba'ath Party government and those seeking to oust it.</h7>
-            <p id="articleBody">
-            The conflict began on 15 March 2011, with popular demonstrations that grew nationwide by April 2011. These demonstrations were part of the wider Middle Eastern protest movement known as the Arab Spring. Protesters demanded the resignation of President Bashar al-Assad, whose family has held the presidency in Syria since 1971, as well as the end to over four decades of Ba'ath Party rule.war</p>
-        </div>
+        <div id="newsCanvas">
+            <h4 id="articleTitle">News</h4>
+            <div id="smallMultiplesCanvas">
+            </div>
+        </div>        
         <div id="timelineCanvas">
-           <!-- <a href="http://bl.ocks.org/mbostock/1667367">Link</a>
-            <input type="button" value="Previous" onclick="window.timeManager.previous()" >
-            <input type="button" value="Next" onclick="window.timeManager.next()" >
-            <p id="dateLabel"></p>-->
-             <div id="timelineView"/>
-        </div>
-        
+            <div id="animationControls">                
+                <div id="buttons"/>
+                    <button type="button previous" onclick="window.timeManager.previous()">1</button>
+                    <button type="button pause">2</button>
+                    <button type="button play">3</button>
+                    <button type="button stop">4</button>
+                    <button type="button next" onclick="window.timeManager.next()" >5</button>
+                </div>
+                <br/>
+                <div id="temporalUnitControl"/>
+                    <p>Temporal unit:</p>
+                    <button type="button day" onclick="">Day</button>
+                    <button type="button week">Week</button>
+                    <button type="button month">Month</button>         
+                </div>
+                <br/>
+                <br/>
+                <div id="timeLabelCanvas"/>                
+                </div>
+            </div>    
+            <div id="timelineView"/>                    
+        </div>                               
     </div>
 
     <div id="tooltip" class="customToolTip"/>

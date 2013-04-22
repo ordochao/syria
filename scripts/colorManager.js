@@ -1,9 +1,9 @@
 window.colorManager = {
 	maximumValue: 	-1,
-	colorsRed: 		[d3.rgb(251, 154, 153),d3.rgb(227, 26, 28)],
-	colorsOrange: 	[d3.rgb(253, 191, 111),d3.rgb(255, 127, 0)],
-	colorsGreen: 	[d3.rgb(178, 223, 138 ),d3.rgb(51, 160, 44)],
-	colorsBlue: 	[d3.rgb(166, 206, 227 ),d3.rgb(31, 120, 180)],
+	colorsRed: 		[d3.rgb(250,201,200),d3.rgb(250,78,75)],
+	colorsGreen: 	[d3.rgb(199,222,177),d3.rgb(142,222,67)],
+	colorsOrange: 	[d3.rgb(255,218,204),d3.rgb(255,127,77)],	
+	colorsBlue: 	[d3.rgb(175,199,219),d3.rgb(66,148,219)],
 	
 	zeroColor: 		d3.rgb(220,220,220),
 	scale: 			{},

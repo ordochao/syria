@@ -9,7 +9,7 @@ window.timeline = {
 	context: 		{},
 	margin: 		{top: 10, right: 10, bottom: 100, left: 40},
 	margin2: 		{top: 140, right: 10, bottom: 80, left: 40},
-	width: 			1050,
+	width: 			980,
 	height:			100,
 	height2:		50,
 	x: 				{},

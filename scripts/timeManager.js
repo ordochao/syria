@@ -10,6 +10,7 @@ window.timeManager = {
 			window.timeManager.dates[i] = dailyReport[i].date;
 		}
 		window.timeManager.currentPositions= 		[0,window.timeManager.numberOfDays];
+		window.timeManager.currentDateInterval= 	[new Date(window.timeManager.dates[0]),new Date(window.timeManager.dates[window.timeManager.numberOfDays-1])];
 		//console.log(window.timeManager.dates)
 	},
 
@@ -87,6 +88,7 @@ window.timeManager = {
 		//console.log(window.timeManager.currentPositions);
 		window.animationEngine.update();
 		window.smallMultiples.update();
+		window.animationControls.update();
 		d3.select("#dateLabel").text(window.timeManager.dates[window.timeManager.currentStep]);
 	}
 

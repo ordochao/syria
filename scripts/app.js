@@ -13,7 +13,9 @@ define([], function() {
 		window.toolTip.init();
 		window.timeline.init();
 		window.smallMultiples.init();
-		
+		window.contentDisplayer.init();
+		window.contentDisplayer.init();
+		window.animationControls.init();
 	};
 
 

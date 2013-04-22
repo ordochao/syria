@@ -3,6 +3,7 @@ window.smallMultiples = {
 	view: 				{},
 	items: 				{},
 	positionsInterval: 	[],
+	searchTerm: 		"",
 
 	init : function (theMaximumValue) {
 	  window.smallMultiples.view = d3.select("#smallMultiplesCanvas");
@@ -50,8 +51,10 @@ window.smallMultiples = {
 	  				.on("click",function(d) {	  					
 	  					if (d3.select(this).attr("class").indexOf("selectedItem") == -1) {
 	  						window.smallMultiples.resetSelectedFilter();
+	  						window.contentDisplayer.loadArticle(d);
 	  						d3.select(this).attr("class",d3.select(this).attr("class") + " selectedItem");	
 	  					} else {
+	  						window.contentDisplayer.displayIntro();	  						
 	  						d3.select(this).attr("class",d3.select(this).attr("class").replace(" selectedItem",""));	
 	  					}
 	  					
@@ -70,13 +73,16 @@ window.smallMultiples = {
 	  	
 	  	minNewsIndex = 140 * Math.floor(minNewsIndex/3);
 	  	window.smallMultiples.view[0][0].scrollTop = minNewsIndex;
+	  	//d3.select(window.smallMultiples.view[0][0]).transition().duration(20000).attr("scrollTop",minNewsIndex);
 	  	console.log()	  				
   },
 
   	filterByTerm : function(term) {
   		//Reset search
   		window.smallMultiples.resetWordsFilter()
-  		if (term.length<2) return;
+  		window.contentDisplayer.cleanTerm(term);
+  		if (term.length<4) return;
+  		window.smallMultiples.searchTerm = term;
   		newsWithKeyWordkInTitle=window.smallMultiples.view.selectAll(".smallMultiplesItem").filter(
   			function (d) {
   				return d.title.indexOf(term)!=-1;
@@ -85,24 +91,40 @@ window.smallMultiples = {
   		newsWithKeyWordkInTitle[0].forEach(
   			function (item) {
   				var innerHTML = item.innerHTML; 			   				
-  				var index = innerHTML.indexOf(term);
-				if ( index >= 0 )
-				{ 
+  				var index = innerHTML.indexOf(term);  				
+  				if ( index >= 0 ) { 
 					innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+term.length) + "</span>" + innerHTML.substring(index + term.length);
-				    item.innerHTML = innerHTML 
+				   	item.innerHTML = innerHTML 
 				}
+				var index = innerHTML.indexOf(term);				
   				item.className = item.className+" foundWordOnItem"
   			}
   		)
+
+  		newsWithKeyWordkInBody=window.smallMultiples.view.selectAll(".smallMultiplesItem").filter(
+  			function (d) {
+  				return d.text.indexOf(term)!=-1;
+  			}
+  		);
+
+  		newsWithKeyWordkInBody[0].forEach(
+  			function (item) {
+  				item.className = item.className+" foundWordOnItem"
+  			}
+  		)
+  		window.contentDisplayer.findTerm(term);  		
   	},
 
 
   	resetWordsFilter : function() {
+  		window.smallMultiples.searchTerm = "";
 		allNews = window.smallMultiples.view.selectAll(".smallMultiplesItem");
   		allNews[0].forEach(
   			 function (item) {
   			 	item.className=item.className.replace(" foundWordOnItem","");  			 	
-  			 	if (item.innerHTML.indexOf("<span class=\"highlight\">") != -1) {  			 	
+  			 	if (item.innerHTML.indexOf("<span class=\"highlight\">") != -1) { 
+  			 		//window.StringUtils.replaceAll("<span class=\"highlight\">","",innerHTML);
+  			 		//window.StringUtils.replaceAll("</span>","",innerHTML); 			 	
   			 		item.innerHTML=item.innerHTML.replace("<span class=\"highlight\">","")
   			 		item.innerHTML=item.innerHTML.replace("</span>","")   
   			 	}
@@ -112,7 +134,7 @@ window.smallMultiples = {
   	},
 
 
-  	resetSelectedFilter : function() {
+  	resetSelectedFilter : function() {  		
 		allNews = window.smallMultiples.view.selectAll(".smallMultiplesItem");
   		allNews[0].forEach(
   			 function (item) {
