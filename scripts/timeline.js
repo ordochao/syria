@@ -16,6 +16,7 @@ window.timeline = {
 	x2: 			{},
 	y: 				{},
 	y2: 			{},
+	actived: 		false,
 
 	data: 			[],
 	init: function () {
@@ -119,11 +120,110 @@ window.timeline = {
 	},
 	
  	brushed : function() {
-		  window.timeline.x.domain(window.timeline.brush.empty() ? window.timeline.x.domain() : window.timeline.brush.extent());
-		  window.timeline.focus.select("path").attr("d", window.timeline.area);
-		  window.timeline.focus.select(".x.axis").call(window.timeline.xAxis);
-		  window.timeManager.setNewInterval(window.timeline.x.domain())
-		  
+		 	window.timeline.x.domain(window.timeline.brush.empty() ? window.timeline.x.domain() : window.timeline.brush.extent());
+		 	window.timeline.focus.select("path").attr("d", window.timeline.area);
+		 	window.timeline.focus.select(".x.axis").call(window.timeline.xAxis);
+		  	window.timeline.update();
+	},
+
+	update: function() {
+			window.timeManager.setNewInterval(window.timeline.x.domain())		  
+	},
+
+
+	day: function() {
+		var max = d3.max(window.timeline.data.map(function(d) { return d.date; }));
+		var startDate = window.timeline.x.domain()[0];
+		var endDate = window.timeline.x.domain()[0];			
+		endDate.setDate(endDate.getDate()+1);		
+		if (endDate > max ) endDate = max;
+		console.log(startDate+endDate);
+		d3.select(".brush").call(window.timeline.brush.extent([startDate,endDate]));
+		window.timeline.brushed();
+	},
+
+	week:function() {
+		console.log("W");
+		var max = d3.max(window.timeline.data.map(function(d) { return d.date; }));
+		var startDate = window.timeline.x.domain()[0];
+		var endDate = window.timeline.x.domain()[0];
+		endDate = endDate.setDate(endDate.getDate()+7);		
+		if (endDate > max ) endDate = max;
+		console.log(startDate+endDate);
+		d3.select(".brush").call(window.timeline.brush.extent([startDate,endDate]));
+		window.timeline.brushed();
+	},
+
+	month:function() {
+		var max = d3.max(window.timeline.data.map(function(d) { return d.date; }));
+		var startDate = window.timeline.x.domain()[0];	
+		var endDate = window.timeline.x.domain()[0];			
+		endDate.setMonth(endDate.getMonth()+1);		
+		if (endDate > max ) endDate = max;
+		console.log(startDate+endDate);
+		d3.select(".brush").call(window.timeline.brush.extent([startDate,endDate]));
+		window.timeline.brushed();
+	},
+
+	next: function() {
+		var max = d3.max(window.timeline.data.map(function(d) { return d.date; }));
+		var startDate = window.timeline.x.domain()[0];				
+		var endDate = window.timeline.x.domain()[1];
+		temporalUnit = window.timeline.daysBetweenDates(endDate,startDate);
+		console.log(temporalUnit)		
+		startDate.setDate(startDate.getDate()+temporalUnit);
+		if (startDate >= max ) {
+			window.timeline.pause();
+			startDate = max;		
+		}
+		endDate.setDate(endDate.getDate()+temporalUnit);		
+		if (endDate > max ) endDate = max;
+		console.log(startDate+endDate);
+		d3.select(".brush").call(window.timeline.brush.extent([startDate,endDate]));
+		window.timeline.brushed();
+	},
+
+	previous: function() {
+		var min = d3.min(window.timeline.data.map(function(d) { return d.date; }));
+		var startDate = window.timeline.x.domain()[0];
+		var endDate = window.timeline.x.domain()[1];	
+		temporalUnit = window.timeline.daysBetweenDates(endDate,startDate);	
+		startDate.setDate(startDate.getDate()-temporalUnit);
+		if (startDate < min ) startDate = min;					
+		endDate.setDate(endDate.getDate()-temporalUnit);
+		if (endDate <= min ) {
+			endDate = min;		
+		}
+		d3.select(".brush").call(window.timeline.brush.extent([startDate,endDate]));
+		window.timeline.brushed();
+	},
+
+	play: function() {
+		window.timeline.actived = true;
+		window.timeline.active();
+	},
+
+
+	pause: function() {
+		console.log("pause");
+		window.timeline.actived = false;
+	},
+
+	active: function() {
+		window.timeline.next()
+		if (window.timeline.actived) {		
+			var startDate = window.timeline.x.domain()[0];
+			var endDate = window.timeline.x.domain()[1];	
+			temporalUnit = window.timeline.daysBetweenDates(endDate,startDate);
+			speed = 1000*(temporalUnit-1)/30 + 200;		
+			window.setTimeout(window.timeline.active,speed);
+		}
+	},
+
+	daysBetweenDates: function (firstDate,secondDate) {
+		var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+		var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+		return diffDays;
 	},
 
 	parseDate : d3.time.parse,

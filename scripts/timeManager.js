@@ -32,30 +32,6 @@ window.timeManager = {
 		return accum;
 	},
 
-	next : function() {
-		block = false;		
-		if (window.timeManager.currentPositions[1]  < (window.timeManager.numberOfDays-1)) {
-			window.timeManager.currentPositions[0] = window.timeManager.currentPositions[0] + 1
-			window.timeManager.currentPositions[1] = window.timeManager.currentPositions[1] + 1
-		} else {
-			block = true;	
-		}
-		window.timeManager.notifyChange();
-		return block;
-	},
-
-	previous : function() {
-		block = false;		
-		if (window.timeManager.currentPositions[1] > 0) {
-			window.timeManager.currentPositions[0] = window.timeManager.currentPositions[0] - 1
-			window.timeManager.currentPositions[1] = window.timeManager.currentPositions[1] - 1
-		} else {
-			block = true;	
-		}
-		window.timeManager.notifyChange();
-		return block;
-	},
-
 	setNewInterval : function(dateInterval) {
 		//console.log(dateInterval);
 		window.timeManager.currentDateInterval = dateInterval;

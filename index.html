@@ -78,18 +78,17 @@
         <div id="timelineCanvas">
             <div id="animationControls">                
                 <div id="buttons"/>
-                    <button type="button previous" onclick="window.timeManager.previous()">1</button>
-                    <button type="button pause">2</button>
-                    <button type="button play">3</button>
-                    <button type="button stop">4</button>
-                    <button type="button next" onclick="window.timeManager.next()" >5</button>
+                    <button type="button previous" onclick="window.timeline.previous()"><|</button>
+                    <button type="button pause" onclick="window.timeline.pause()">||</button>
+                    <button type="button play" onclick="window.timeline.play()">></button>
+                    <button type="button next" onclick="window.timeline.next()" >|></button>
                 </div>
                 <br/>
                 <div id="temporalUnitControl"/>
                     <p>Temporal unit:</p>
-                    <button type="button day" onclick="">Day</button>
-                    <button type="button week">Week</button>
-                    <button type="button month">Month</button>         
+                    <button type="button day" onclick="window.timeline.day()">Day</button>
+                    <button type="button week" onclick="window.timeline.week()">Week</button>
+                    <button type="button month" onclick="window.timeline.month()">Month</button>         
                 </div>
                 <br/>
                 <br/>
