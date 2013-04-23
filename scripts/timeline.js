@@ -9,7 +9,7 @@ window.timeline = {
 	context: 		{},
 	margin: 		{top: 10, right: 10, bottom: 100, left: 40},
 	margin2: 		{top: 140, right: 10, bottom: 80, left: 40},
-	width: 			980,
+	width: 			950,
 	height:			100,
 	height2:		50,
 	x: 				{},
@@ -115,7 +115,6 @@ window.timeline = {
     .selectAll("rect")
       .attr("y", -6)
       .attr("height", window.timeline.height2 + 7);
-    		
 
 	},
 	
@@ -165,12 +164,18 @@ window.timeline = {
 		window.timeline.brushed();
 	},
 
+	all:function() {
+		var min = window.timeline.x2.domain()[0];
+		var max = window.timeline.x2.domain()[1];
+		d3.select(".brush").call(window.timeline.brush.extent([min,max]));
+		window.timeline.brushed();
+	},
+
 	next: function() {
 		var max = d3.max(window.timeline.data.map(function(d) { return d.date; }));
 		var startDate = window.timeline.x.domain()[0];				
 		var endDate = window.timeline.x.domain()[1];
-		temporalUnit = window.timeline.daysBetweenDates(endDate,startDate);
-		console.log(temporalUnit)		
+		temporalUnit = window.timeline.daysBetweenDates(endDate,startDate);	
 		startDate.setDate(startDate.getDate()+temporalUnit);
 		if (startDate >= max ) {
 			window.timeline.pause();
@@ -200,6 +205,13 @@ window.timeline = {
 
 	play: function() {
 		window.timeline.actived = true;
+		var startDate = window.timeline.x.domain()[0];
+		var endDate = window.timeline.x.domain()[1];	
+		temporalUnit = window.timeline.daysBetweenDates(endDate,startDate);
+		console.log()
+		if (Math.abs(temporalUnit-window.timeManager.numberOfDays)<30) {
+			window.timeline.month();
+		}
 		window.timeline.active();
 	},
 
@@ -215,7 +227,7 @@ window.timeline = {
 			var startDate = window.timeline.x.domain()[0];
 			var endDate = window.timeline.x.domain()[1];	
 			temporalUnit = window.timeline.daysBetweenDates(endDate,startDate);
-			speed = 1000*(temporalUnit-1)/30 + 200;		
+			speed = 800*(temporalUnit-1)/30 + 200;		
 			window.setTimeout(window.timeline.active,speed);
 		}
 	},

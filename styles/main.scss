@@ -11,14 +11,16 @@
 .header {
 	background-color: #424444;
 	display: 		inline-block;
-	width:  100%	
+	width:  100%;
+	height: 37px;	
 }
 
 .header h1 {
 	color: #DDD;
 	padding-left: 20px;
-	margin-top: 10px;
-	font-size: 24pt;
+	margin-top: 0px;
+	padding-top: 0px;
+	font-size: 18pt;
 	font-family: "Helvetica";
 	font-weight: lighter;
 	float: 			left;
@@ -27,7 +29,7 @@
 
 .searchBox {
 	float: 			right;
-	margin-top: 	20px;
+	margin-top: 	6px;
 	margin-bottom: 	0px;
 	margin-right: 	60px;
 	display: 		inline-block;
@@ -56,7 +58,7 @@
 
 #contentViewer {
 	width: 			310px;
-	height: 		375px;
+	height: 		360px;
 	overflow: 		scroll;
 	margin-left: 	10px;
 	padding-left: 	15px;
@@ -73,6 +75,7 @@
 	padding: 		5px;
 	color:			#FFF;
 	margin-top: 	35px;
+	background-color: 		#DDD;
 }
 
 
@@ -83,7 +86,7 @@
 	margin: 0px;
 }
 #intro {
-	
+	margin-top: 0px;
 }
 
 #animationLegend {
@@ -102,12 +105,14 @@
 }
 
 #articleTitle {
+	margin-top: 	0px;
+	margin-bottom: 	0px;
 	color:			#444;
-	font-size: 		16pt;	
+	font-size: 		14pt;	
 }
 
 #articleHeadline {
-	font-size: 		11pt;
+	font-size: 		10pt;
 }
 
 #articleLineBy {
@@ -124,6 +129,7 @@
 }
 
 #articleBody {
+	color:			#444;
 	font-size: 		9pt;
 	margin-top: 	10px;
 	line-height: 	110%;
@@ -134,7 +140,7 @@
 
 #animationCanvas {
 	width: 			375px;
-	height: 		350px;
+	height: 		330px;
 	margin-left: 	15px;
 	padding-left: 	15px;
 	padding-right: 	5px;
@@ -190,7 +196,7 @@
 	width: 			1188px;
 	height: 		225px;
 	margin-left: 	15px;
-	margin-top: 	15px;
+	margin-top: 	0px;
 	padding-left: 	15px;
 	padding-right: 	15px;
 	border-radius: 	15px;
@@ -199,10 +205,15 @@
 	display: 		inline-block;
 }
 
+.controlsCanvas {
+	float:left;
+	width: 200px;
+}
+
 
 #animationControls {
 	float:left;
-	width: 170px;
+	width: 200px;
 	font-family: 	"Helvetica";
 	font-size: 11pt;
 }
@@ -223,16 +234,52 @@
 	font-size: 10pt;
 }
 
-.radio {
-	margin-left: 10px;
-	margin-top: 0px;
-	width: 150px;
+button {
+	background-color: #BBBBBB;
+	color:	#FFFFFF;
+	border: transparent;
+	margin: 2px;
+	height: 40px;
+	width:  55px;
+	padding-left: 6px;
+	padding-right: 6px;
 	float: left;
+	border-radius: 5px;
 }
 
-.radio {
-	width: 150px;
-	float: left;
+.controls {
+	width: 40px;
+	height: 40px;
+	background-position:center; 
+	background-repeat:no-repeat;
+}
+
+.all {
+	width: 174px;	
+}
+
+.play {
+	background-image: url("../images/playIcon.png");	
+}
+
+.pause {
+	background-image: url("../images/pauseIcon.png");
+	background-position: 11px 11px; 
+}
+
+
+.next {
+	background-image: url("../images/nextIcon.png");
+}
+
+.previous {
+	background-image: url("../images/previousIcon.png");
+}
+
+
+button:hover {
+	background-color: #FF7F4D;
+	color:	#FFFFFF;
 }
 
 #timelineView {
@@ -263,6 +310,15 @@
   shape-rendering: crispEdges;
 }
 
+.details {
+	font-family: "Helvetica";
+	font-size: 	 10pt;
+}
+
+.details strong{
+	font-size: 	 11pt;
+}
+
 
 /* SMALL MULTIPLES */
 
@@ -272,21 +328,21 @@
 	border-radius: 	15px;
 	font-family: 	"Helvetica";
 	float: 			left;
+	display: inline;
 	
 }
 
 #smallMultiplesCanvas {
 	width: 			450px;
-	height: 		340px;
+	height: 		300px;
 	overflow: 		scroll;
 }
 .smallMultiplesItem {  
-  
-  border: 			solid #FFF 3px;
+  background-color: #DDD;
   display: 			inline-block;
-  width: 			132px;
+  width: 			128px;
   height: 			132px;
-  margin: 			1px;
+  margin: 			2px;
   padding-left: 	4px;
   padding-right: 	4px;
   overflow: 		hidden;
@@ -302,20 +358,22 @@
   text-align: 		center;
 }
 
-.guardianNews {
-  background-color: #98bcdb;
+.guardianNews {	
+  color: 			#AFC7DB;
+  border-left:		solid #AFC7DB 8px ;
 }
 
 .syrianDeeplyNews {
-	background-color:#FFAA88;
+  color: 			#FF7F4D;
+  border-left:		solid #FFDACC 8px;
 }
 
 .foundWordOnItem {
-	border:			solid #8EDE43 3px;
+  background-color:		#C7DEB1;
 }
 
 .selectedItem {
-	border:			solid #FF0000 3px;
+	background-color:	#FAC9C8;
 }
 
 .highlight {
@@ -323,8 +381,8 @@
 	color:	#444;
 }
 
-.thumbTitle {  
-  color:			#FFF;
+.thumbTitle {
+  color:	#444;  
   font-size:		10pt;
   overflow: 		hidden;
   line-height: 		100%;
@@ -332,7 +390,7 @@
 
 
 .thumbTitle:hover {  
-  color:			#444;
+  color:			#FFF;
   text-decoration:  none;
 }
 .thumbDate {

@@ -40,7 +40,7 @@ window.timeManager = {
 		targetDate = new Date(window.timeManager.dates[0]);
 		for (i=0;i<window.timeManager.dates.length;i++) {
 			targetDate = new Date(window.timeManager.dates[i]);
-			if (targetDate>minDate) {
+			if (targetDate>=minDate) {
 				//console.log("First position is "+i);
 				window.timeManager.currentPositions[0] = i
 				break;
@@ -48,14 +48,13 @@ window.timeManager = {
 		}
 		for (i=window.timeManager.currentPositions[0];i<window.timeManager.dates.length;i++) {
 			targetDate = new Date(window.timeManager.dates[i]);
-			if (targetDate>maxDate) {
+			if (targetDate>=maxDate) {
 				//console.log("Last position is "+i);
 				window.timeManager.currentPositions[1] = i
 				break;
 			}	
 		}
-		//console.log("window.timeManager.currentPositions");
-		
+		//console.log("window.timeManager.currentPositions");		
 		window.timeManager.notifyChange()
 	},
 

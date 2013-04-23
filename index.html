@@ -33,9 +33,11 @@
 <script src="scripts/stringUtils.js"></script>
 <script src="scripts/animationControls.js"></script>
 
+<div id="tooltip" class="customToolTip">
+</div>
 
     <div class="header">    
-        <h1>Casualties over the Syrian civil war</h1>
+        <h1>The Syrian civil war, casualties</h1>
         <div class="searchBox">
                 <p class="searchLabel" >Search words on news:</p>
                 <input type="text" name="q" size="32" id="textInputSearch" onKeyup="window.smallMultiples.filterByTerm(document.getElementById('textInputSearch').value)"/>
@@ -51,55 +53,62 @@
             <div id="intro" >           
                 <h4 id="articleTitle">Abstract</h4>
                 <p id="articleHeadline">About <strong>50.000 people</strong> died on the syrian civil war up to 1st of January of 2013</p>
-               <p id="articleBody">
+               <p id="articleHeadline">
                 The Syrian civil war is an ongoing armed conflict in Syria between forces loyal to the Syrian Ba'ath Party government and those seeking to oust it.    
                 The conflict began on 15 March 2011, with popular demonstrations that grew nationwide by April 2011. These demonstrations were part of the wider Middle Eastern protest movement known as the Arab Spring.</p>
                 <p/>
                 <p id="articleHeadline">Number of casualties by governity:</p>
-                <div id="animationLegend"></div>
-                <p id="articleHeadline">Source of the article:</p>                
-                <div class="smallMultiplesItem legend guardianNews"><p><a href="" class="thumbTitle">The Guardian</a></p></div>
-                <div class="smallMultiplesItem legend syrianDeeplyNews"><a href="" class="thumbTitle">Syrian Deeply</a></div>              
-            </div>
+                <div id="animationLegend"></div>              
+            </div>            
             <div id="newsViewer">
                 <h4 id="articleTitle"></h4>                
                     <p id="articleLineBy"></p>
                     <p id="articleDate"></p>                
                 <p id="articleHeadline"></p>
-               <p id="articleBody">
+                <p id="articleBody">
                 </p>                
             </div>
         </div>
         <div id="newsCanvas">
-            <h4 id="articleTitle">News</h4>
+            <div style="display:inline" />
+                <h4 id="articleTitle" style="float:left">News</h4>
+                <div style="float:right">
+                    <p style="float:left;padding-right:5px;font-size:9pt">Source of the article:</p>
+                    <div class="smallMultiplesItem legend guardianNews"><p><a href="" class="thumbTitle">The Guardian</a></p></div>
+                    <div class="smallMultiplesItem legend syrianDeeplyNews"><a href="" class="thumbTitle">Syrian Deeply</a></div> 
+                </div>
+            </div>              
             <div id="smallMultiplesCanvas">
             </div>
         </div>        
         <div id="timelineCanvas">
-            <div id="animationControls">                
-                <div id="buttons"/>
-                    <button type="button previous" onclick="window.timeline.previous()"><|</button>
-                    <button type="button pause" onclick="window.timeline.pause()">||</button>
-                    <button type="button play" onclick="window.timeline.play()">></button>
-                    <button type="button next" onclick="window.timeline.next()" >|></button>
-                </div>
-                <br/>
-                <div id="temporalUnitControl"/>
-                    <p>Temporal unit:</p>
-                    <button type="button day" onclick="window.timeline.day()">Day</button>
-                    <button type="button week" onclick="window.timeline.week()">Week</button>
-                    <button type="button month" onclick="window.timeline.month()">Month</button>         
-                </div>
-                <br/>
-                <br/>
-                <div id="timeLabelCanvas"/>                
+            <div class="controlsCanvas">
+                <div class="details"/>                
+                    </div>
+                <div id="animationControls">                
+                    <div id="buttons"/>
+                        <button type="button" class="controls previous" onclick="window.timeline.previous()"></button>
+                        <button type="button" class="controls pause" onclick="window.timeline.pause()"></button>
+                        <button type="button" class="controls play" onclick="window.timeline.play()"></button>
+                        <button type="button" class="controls next" onclick="window.timeline.next()" ></button>
+                    </div>
+                    <br/>
+                    <div id="temporalUnitControl"/>
+                        <p>Temporal unit:</p>
+                        <button type="button day" onclick="window.timeline.day()">Day</button>
+                        <button type="button week" onclick="window.timeline.week()">Week</button>
+                        <button type="button month" onclick="window.timeline.month()">Month</button>         
+                    </div>
+                    <button type="button all"class="all" onclick="window.timeline.all()">All</button> 
+                    <br/>
+                    <br/>                
                 </div>
             </div>    
             <div id="timelineView"/>                    
         </div>                               
     </div>
 
-    <div id="tooltip" class="customToolTip"/>
+    
 
 
 

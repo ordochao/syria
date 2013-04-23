@@ -9,7 +9,7 @@ window.animationEngine = {
   initEngine : function(source_object) {
       console.log("Init animationEngine")
 
-      window.animationEngine.projection   = d3.geo.mercator().scale(3000).translate([-1850, 2120]);
+      window.animationEngine.projection   = d3.geo.mercator().scale(3000).translate([-1850, 2110]);
       window.animationEngine.path         = d3.geo.path().projection(window.animationEngine.projection);
 
       window.animationEngine.animation = d3.select("#animationCanvas").append("svg")

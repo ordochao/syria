@@ -62,16 +62,12 @@ window.smallMultiples = {
 
 
 
-		updatedElements.attr("class",function (d) {
-						return window.smallMultiples.getProperClass(d);
-	  				})
-	  				.html(function(d) {return "<p class = \"thumbDate\">"+d.date.toString("yyyy/mm/dd")+"</<p><p class = \"thumbTitle\">"+d.title+"</p>"} )
-	  				.attr("style","");
+		updatedElements.attr("style","");
 
 	  	updatedElements.exit().transition().duration(1000)
 	  							.attr("style","opacity:0.4")
 	  	
-	  	minNewsIndex = 140 * Math.floor(minNewsIndex/3);
+	  	minNewsIndex = 136 * Math.floor(minNewsIndex/3);
 	  	window.smallMultiples.view[0][0].scrollTop = minNewsIndex;
 	  	//d3.select(window.smallMultiples.view[0][0]).transition().duration(20000).attr("scrollTop",minNewsIndex);
 	  	console.log()	  				

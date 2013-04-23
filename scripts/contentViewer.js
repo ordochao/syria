@@ -95,7 +95,7 @@ window.contentDisplayer = {
 
 	loadArticle: function (article) {
 		console.log("LOAD ARTICLE:");
-		console.log(article);
+		//console.log(article);
 		d3.select("#intro").attr("class","hidden");
 		d3.select("#newsViewer").attr("class",function (d) {
 			if (article.media == "The Guardian") {
@@ -107,7 +107,13 @@ window.contentDisplayer = {
 		d3.select("#newsViewer").select("#articleTitle").text(article.title);
 		d3.select("#newsViewer").select("#articleLineBy").text(article.author);
 		d3.select("#newsViewer").select("#articleDate").text(article.date);
-		d3.select("#newsViewer").select("#articleBody").text(article.text.replace(new RegExp('pppp', "g"),""));
+		paragraphsContent = article.text.split("pppp");
+		console.log(paragraphsContent);
+		paragraphs = d3.select("#newsViewer").selectAll("#articleBody").data(paragraphsContent);
+		paragraphs.enter().append("p").attr("id","articleBody").text(function (d) {console.log(d);return d;});
+		paragraphs.text(function (d) {return d;});
+		paragraphs.exit().remove();
+		//d3.select("#newsViewer").select("#articleBody").text(article.text.replace(new RegExp('pppp', "g"),""));
 		window.contentDisplayer.findTerm(window.smallMultiples.searchTerm);
 	},
 

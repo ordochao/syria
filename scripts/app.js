@@ -16,6 +16,7 @@ define([], function() {
 		window.contentDisplayer.init();
 		window.contentDisplayer.init();
 		window.animationControls.init();
+		window.timeline.all();
 	};
 
 
